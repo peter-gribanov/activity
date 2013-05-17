@@ -16,6 +16,7 @@ use Framework\Request;
 use Framework\Router\URLHelper;
 use Framework\Exception;
 use Framework\Utility\Arr as ArrayUtility;
+use Framework\Database\Engine;
 
 /**
  * Райтинг
@@ -73,6 +74,13 @@ class Factory {
 	 * @var \Framework\Router\URLHelper
 	 */
 	private $url_helper;
+
+	/**
+	 * Список подключений к бд
+	 *
+	 * @var array
+	 */
+	private $db_connections;
 
 
 	/**
@@ -187,4 +195,21 @@ class Factory {
 		return $this->url_helper;
 	}
 
+	/**
+	 * Возвращает адаптор бд
+	 *
+	 * @param string|null $connect Подключение
+	 *
+	 * @return \Framework\Database\Engine
+	 */
+	public function getDatabaseEngine($connect = null) {
+		$connect = $connect ?: $this->getConfig('database.default_connect');
+		if (!$connect) {
+			throw new Exception('Не выбрано подключение');
+		}
+		if (!isset($this->db_connections[$connect])) {
+			$this->db_connections[$connect] = new Engine($this->getConfig('database.connections.'.$connect, array()));
+		}
+		return $this->db_connections[$connect];
+	}
 }

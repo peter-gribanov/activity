@@ -10,4 +10,14 @@
 
 return array(
 	'debug' => true,
+	'database' => array(
+		'default_connect' => 'default',
+		'connections' => array(
+			'default' => array(
+				'dsn' => 'sqlite:'.dirname(__DIR__).'/activity.db',
+				'username' => null,
+				'password' => null,
+			)
+		)
+	),
 );
