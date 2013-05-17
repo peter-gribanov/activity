@@ -217,13 +217,12 @@ class Engine {
 	 */
 	public function query($statement, $mode = null, $param = null, array $ctorargs = array()) {
 		switch ($mode) {
-			case self::FETCH_COLUMN:
-			case self::FETCH_INTO:
-				return $this->pdo->query($statement, $mode, $param);
+			case null:
+				return $this->pdo->query($statement);
 			case self::FETCH_CLASS:
 				return $this->pdo->query($statement, $mode, $param, $ctorargs);
 			default:
-				return $this->pdo->query($statement);
+				return $this->pdo->query($statement, $mode, $param);
 		}
 	}
 
