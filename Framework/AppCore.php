@@ -10,8 +10,6 @@
 
 namespace Framework;
 
-use Framework\Response\Json;
-
 use Framework\Factory;
 use Framework\Request;
 use Framework\Http\Http;
@@ -51,6 +49,7 @@ class AppCore {
 	public function __construct() {
 		$root = dirname(__DIR__);
 		$this->factory = new Factory(
+			$this,
 			$root,
 			require $root.'/configs/routing.php',
 			require $root.'/configs/global.php'
@@ -149,26 +148,16 @@ class AppCore {
 	}
 
 	/**
-	 * Устанавливает запрос
-	 *
-	 * @param \Framework\Request $request Запрос
-	 *
-	 * @return \Framework\AppCore
-	 */
-	public function setRequest(Request $request) {
-		$this->factory->setRequest($request);
-		return $this;
-	}
-
-	/**
 	 * Выполняет вызов экшена исходя из запроса
 	 *
 	 * @throws \Framework\Exception
 	 *
+	 * @param \Framework\Request $request Запрос
+	 *
 	 * @return \Framework\Response\Base
 	 */
-	public function execute() {
-		$request = $this->factory->getRequest();
+	public function execute(Request $request) {
+		$this->factory->setRequest($request);
 
 		$path = parse_url($request->server('REQUEST_URI', '/'), PHP_URL_PATH);
 		$node = $this->factory->getRouter()->getNodeByPattern($path);
@@ -208,4 +197,38 @@ class AppCore {
 		return $result;
 	}
 
+	/**
+	 * Вложенный вызов контроллера
+	 *
+	 * @param array|string $pointer Вызываемый контроллер
+	 * @param array        $get     GET параметры
+	 *
+	 * @return string
+	 */
+	public function executeByRoute($pointer, array $get = array()) {
+		// поиск ноды
+		if (is_array($pointer) || !($node = $this->factory->getRouter()->getNodeByAlias($pointer))) {
+			$pointer = is_array($pointer) ? implode(':', $pointer) : $pointer;
+			$node = $this->factory->getRouter()->getNodeByController($pointer);
+		}
+		if (!($node instanceof Node)) {
+			throw new NotFound('Неудалось сформировать адрес запроса для указателя: '.$pointer);
+		}
+
+		$last_request = $this->factory->getRequest();
+		// создаем подзапрос
+		$sub_request = clone $last_request;
+		$sub_request->setInput('get', $get);
+		$sub_request->setInput('server', array_merge(
+			$last_request->server(),
+			array('REQUEST_URI' => $node->getPattern())
+		));
+
+		// выполнение подзапроса
+		$result = $this->execute($sub_request);
+		// восстанавливаем старый запрос
+		$this->factory->setRequest($last_request);
+
+		return $result->getContent();
+	}
 }

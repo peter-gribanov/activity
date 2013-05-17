@@ -56,4 +56,13 @@ class Home extends Controller {
 	public function usersAction() {
 		return array();
 	}
+
+	/**
+	 * Форма авторизации
+	 *
+	 * @return array
+	 */
+	public function loginAction() {
+		return array();
+	}
 }

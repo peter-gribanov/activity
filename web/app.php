@@ -11,6 +11,5 @@
 require dirname(__DIR__).'/autoload.php';
 
 $app = new \Framework\AppCore();
-$app->setRequest(\Framework\Request::buildFromGlobal());
-$response = $app->execute();
+$response = $app->execute(\Framework\Request::buildFromGlobal());
 $response->transmit();

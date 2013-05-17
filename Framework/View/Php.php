@@ -15,6 +15,7 @@ use Framework\View\Php\HelperUtility;
 use Framework\View\Php\Sandbox;
 use Framework\View\Exception;
 use Framework\Router\URLHelper;
+use Framework\AppCore;
 
 /**
  * Шаблонизатор нативный PHP
@@ -73,14 +74,15 @@ class Php implements Iface {
 	 * @param string                      $path         Пути к файлам шаблонов
 	 * @param string                      $helpers_path Путь к хелперам
 	 * @param \Framework\Router\URLHelper $url_helper   URL хелпер
+	 * @param \Framework\AppCore          $app          Контроллер распределения запросов
 	 * @param boolean                     $debug        Режим отладки
 	 */
-	public function __construct($path, $helpers_path, URLHelper $url_helper, $debug = false) {
+	public function __construct($path, $helpers_path, URLHelper $url_helper, AppCore $app, $debug = false) {
 		self::$helpers_path = $helpers_path;
 		$this->path         = $path;
 		$this->debug        = $debug;
 
-		self::$utility = new HelperUtility($this, $url_helper);
+		self::$utility = new HelperUtility($this, $url_helper, $app);
 	}
 
 	/**

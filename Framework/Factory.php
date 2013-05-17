@@ -19,18 +19,18 @@ use Framework\Utility\Arr as ArrayUtility;
 
 /**
  * Райтинг
- * 
+ *
  * @package Framework
  * @author  Peter Gribanov <gribanov@professionali.ru>
  */
 class Factory {
 
 	/**
-	 * Обертка для клиента API
+	 * Контроллер распределения запросов
 	 *
-	 * @var \Framework\API
+	 * @var \Framework\AppCore
 	 */
-	private $api;
+	private $app;
 
 	/**
 	 * Представление
@@ -78,14 +78,16 @@ class Factory {
 	/**
 	 * Конструктор
 	 *
-	 * @param string $dir     Корневая дирректория
-	 * @param array  $routing Роутинг
-	 * @param array  $config  Конфигурации
+	 * @param \Framework\AppCore $app     Контроллер распределения запросов
+	 * @param string             $dir     Корневая дирректория
+	 * @param array              $routing Роутинг
+	 * @param array              $config  Конфигурации
 	 */
-	public function __construct($dir, array $routing = array(), array $config = array()) {
+	public function __construct(AppCore $app, $dir, array $routing = array(), array $config = array()) {
 		$this->router = new Router($routing);
 		$this->dir    = $dir;
 		$this->config = $config;
+		$this->app    = $app;
 	}
 
 	/**
@@ -99,6 +101,7 @@ class Factory {
 				$this->getDir().'/resources/templates',
 				$this->getDir().'/resources/helpers',
 				$this->getURLHelper(),
+				$this->app,
 				$this->getConfig('debug')
 			);
 		}

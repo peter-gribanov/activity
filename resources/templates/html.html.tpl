@@ -2,7 +2,7 @@
 <html lang="ru">
 	<head>
 		<meta charset="utf-8">
-		<title><?if(!empty($page_title)):?><?=$page_title?> &mdash; <?endif;?>Activity</title>
+		<title><?if(!empty($page_title)):?><?=$page_title?> &mdash; <?endif;?>Мероприятия</title>
 		<link rel="stylesheet" href="/main.css">
 		<script type="text/javascript" src="/jquery-1.9.1.min.js"></script>
 		<script type="text/javascript" src="/main.js"></script>

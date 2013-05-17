@@ -13,6 +13,7 @@ namespace Framework\View\Php;
 use Framework\View\Php;
 use Framework\View\Exception;
 use Framework\Router\URLHelper;
+use Framework\AppCore;
 
 /**
  * Утилита для хелперов
@@ -48,6 +49,13 @@ class HelperUtility {
 	private $url_helper;
 
 	/**
+	 * Контроллер распределения запросов
+	 *
+	 * @var \Framework\AppCore
+	 */
+	private $app;
+
+	/**
 	 * Список блоков которые не должны перезаписываться
 	 *
 	 * @var array
@@ -74,10 +82,12 @@ class HelperUtility {
 	 *
 	 * @param \Framework\View\Php         $view       Шаблонизатор
 	 * @param \Framework\Router\URLHelper $url_helper URL хелпер
+	 * @param \Framework\AppCore          $app        Контроллер распределения запросов
 	 */
-	public function __construct(Php $view, URLHelper $url_helper) {
+	public function __construct(Php $view, URLHelper $url_helper, AppCore $app) {
 		$this->view       = $view;
 		$this->url_helper = $url_helper;
+		$this->app        = $app;
 	}
 
 	/**
@@ -222,4 +232,15 @@ class HelperUtility {
 		return $this->url_helper;
 	}
 
+	/**
+	 * Выполнение контроллера
+	 *
+	 * @param string $pointer Вызываемый контроллер
+	 * @param array  $params  Параметры
+	 *
+	 * @return string
+	 */
+	public function execute($pointer, array $params = array()) {
+		return $this->app->executeByRoute($pointer, $params);
+	}
 }

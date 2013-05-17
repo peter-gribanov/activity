@@ -29,4 +29,9 @@ return array(
 		'controller' => 'Home::users',
 		'present'    => 'html'
 	),
+	'home_login' => array(
+		'pattern'    => '/login',
+		'controller' => 'Home::login',
+		'present'    => 'html'
+	),
 );

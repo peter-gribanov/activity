@@ -63,9 +63,12 @@ class Request {
 	 *
 	 * @return mixed
 	 */
-	private function getInput($from, $name = null, $default = null) {
+	public function getInput($from, $name = null, $default = null) {
 		if (!$this->isInputed($from)) {
 			return $default;
+		}
+		if (is_null($name)) {
+			return $this->input[$from];
 		}
 		return ArrayUtility::get($this->input[$from], $name, $default);
 	}
@@ -78,7 +81,7 @@ class Request {
 	 *
 	 * @return Request
 	 */
-	private function setInput($to, array $value = array()) {
+	public function setInput($to, array $value = array()) {
 		$this->input[$to] = $value;
 		return $this;
 	}
@@ -90,7 +93,7 @@ class Request {
 	 *
 	 * @return boolean
 	 */
-	private function isInputed($var) {
+	public function isInputed($var) {
 		return array_key_exists($var, $this->input);
 	}
 
