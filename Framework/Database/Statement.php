@@ -21,20 +21,28 @@ use Framework\Database\Engine;
 class Statement extends \PDOStatement {
 
 	/**
-	 * Адаптор доступа к бд
-	 *
-	 * @var \Framework\Database\Engine
+	 * (non-PHPdoc)
+	 * @see PDOStatement::bindValue()
 	 */
-	private $engine;
-
+	public function bindValue($parameter, $value, $data_type = null) {
+		if ($data_type == Engine::PARAM_ID) {
+			$value = preg_replace('/\\*`/', '\`', $value);
+			parent::bindValue($parameter, '`'.$value.'`');
+		} else {
+			parent::bindValue($parameter, $value, $data_type);
+		}
+	}
 
 	/**
-	 * Конструктор
-	 *
-	 * @param \Framework\Database\Engine $engine Адаптор доступа к бд
+	 * (non-PHPdoc)
+	 * @see PDOStatement::bindParam()
 	 */
-	private function __construct(Engine $engine) {
-		$this->engine = $engine;
+	public function bindParam($parameter, &$variable, $data_type = null, $length = null, $driver_options = null) {
+		if ($data_type == Engine::PARAM_ID) {
+			$this->bindValue($parameter, $variable, $data_type);
+		} else {
+			parent::bindParam($parameter, $variable, $data_type, $length, $driver_options);
+		}
 	}
 
 }
