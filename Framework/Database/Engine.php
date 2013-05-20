@@ -56,6 +56,18 @@ class Engine {
 	const PARAM_STR = \PDO::PARAM_STR;
 
 	/**
+	 * Идентификаторный
+	 *
+	 * Ключевые слова SQL, такие как date, int и т. д., не могут использоваться в качестве имен полей и таблиц.
+	 * Например, у вас не получится создать в таблице столбец с именем date.
+	 * Тем не менее, многие СУБД предлагают способы, позволяющие все же ссылаться на подобные объекты.
+	 * Имена идентификаторов следует окружить теми или иными ограничителями (в зависимости от СУБД)
+	 *
+	 * @var integer
+	 */
+	const PARAM_ID = 6;
+
+	/**
 	 * Указывает, что метод, осуществляющий выборку данных, должен возвращать каждую строку результирующего набора в виде ассоциативного массива,
 	 * индексы которого соответствуют именам столбцов результата выборки
 	 *
@@ -130,9 +142,9 @@ class Engine {
 		try {
 			$this->pdo = new \PDO($connection['dsn'], $connection['username'], $connection['password'], array(
 				\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION,
-				\PDO::ATTR_STATEMENT_CLASS => array('\Framework\Database\Statement', array($this)),
-// 				\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_CLASS
+				\PDO::ATTR_STATEMENT_CLASS => array('\Framework\Database\Statement')
 			));
+			$this->pdo->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_ASSOC);
 		} catch (\PDOException $e) {
 			throw new Exception('Не удалось подключится к базе данных');
 		}
