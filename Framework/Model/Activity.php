@@ -22,4 +22,50 @@ use Framework\Database\Engine;
  */
 class Activity extends ActivityTable {
 
+	public function getActivityList() {
+		// получем комментарии
+		$activity_table = $this->getTableName();
+		$comments_table = $this->factory->Comments()->getTableName();
+		$users_table = $this->factory->Users()->getTableName();
+		$st = $this->engine->prepare('
+			SELECT
+				`a`.*,
+				`c`.`time` AS `comment_time`,
+				`c`.`comment` AS `comment_text`,
+				`u`.`name` AS `comment_author`
+			FROM
+				`'.$activity_table.'` AS `a`
+			LEFT JOIN
+				`'.$comments_table.'` AS `c`
+				ON
+					`a`.`id` = `c`.`action_id`
+			LEFT JOIN
+				`'.$users_table.'` AS `u`
+				ON
+					`u`.`id` = `c`.`user_id`
+			ORDER BY
+				`date_start`,
+				strftime(\'%s\', `time`) ASC
+		');
+		$st->execute();
+		$result = $st->fetchAll();
+		// конвертация данных
+		foreach ($result as $key => $value) {
+			$result[$key]['date_start'] = strtotime($value['date_start']);
+			$result[$key]['date_end'] = strtotime($value['date_end']);
+			// оформляем последний комментарий
+			$result[$key]['comment'] = array();
+			if ($value['comment_time'] && $value['comment_text'] && $value['comment_author']) {
+				$result[$key]['comment'] = array(
+					'time' => strtotime($value['comment_time']),
+					'author' => $value['comment_author'],
+					'text' => $value['comment_text'],
+				);
+			}
+			unset($result[$key]['comment_time'], $result[$key]['comment_text'], $result[$key]['comment_author']);
+		}
+
+		return $result;
+	}
+
 }
