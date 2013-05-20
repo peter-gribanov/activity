@@ -14,14 +14,24 @@ return array(
 		'controller' => 'Home::index',
 		'present'    => 'html'
 	),
-	'home_card' => array(
-		'pattern'    => '/card.html',
-		'controller' => 'Home::card',
+	'home_add' => array(
+		'pattern'    => '/add.html',
+		'controller' => 'Home::add',
 		'present'    => 'html'
 	),
 	'home_edit' => array(
 		'pattern'    => '/edit.html',
 		'controller' => 'Home::edit',
+		'present'    => 'html'
+	),
+	'home_remove' => array(
+		'pattern'    => '/remove.html',
+		'controller' => 'Home::remove',
+		'present'    => 'html'
+	),
+	'home_card' => array(
+		'pattern'    => '/card.html',
+		'controller' => 'Home::card',
 		'present'    => 'html'
 	),
 	'home_users' => array(

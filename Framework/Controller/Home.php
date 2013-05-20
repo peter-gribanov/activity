@@ -13,8 +13,8 @@ namespace Framework\Controller;
 use Framework\Controller\Controller;
 use Framework\Database\Engine;
 use Framework\Model\Users;
-use Framework\Http\Forbidden;
-
+use Framework\Http\ClientError\Forbidden;
+use Framework\Http\Redirection\Found;
 
 /**
  * Главный контроллер
@@ -30,7 +30,10 @@ class Home extends Controller {
 	 * @return array
 	 */
 	public function indexAction() {
-		return array();
+		return array(
+			'list' => $this->getFactory()->getModel()->Activity()->getActivityList(),
+			'is_admin' => !empty($_SESSION['user']) && $_SESSION['user']['role'] == Users::ROLE_ADMIN
+		);
 	}
 
 	/**
@@ -43,11 +46,29 @@ class Home extends Controller {
 	}
 
 	/**
-	 * Редактирование таблици
+	 * Редактирование мероприятия
 	 *
 	 * @return array
 	 */
 	public function editAction() {
+		return array();
+	}
+
+	/**
+	 * Добавление мероприятия
+	 *
+	 * @return array
+	 */
+	public function addAction() {
+		return array();
+	}
+
+	/**
+	 * Удаление мероприятия
+	 *
+	 * @return array
+	 */
+	public function removeAction() {
 		return array();
 	}
 
@@ -57,7 +78,7 @@ class Home extends Controller {
 	 * @return array
 	 */
 	public function usersAction() {
-		if (empty($_SESSION['user']) || $_SESSION['user']['role'] !== Users::ROLE_ADMIN) {
+		if (empty($_SESSION['user']) || $_SESSION['user']['role'] != Users::ROLE_ADMIN) {
 			throw new Forbidden('Доступ к разделу запрещен');
 		}
 		$users = $this->getFactory()->getModel()->Users();
@@ -80,6 +101,7 @@ class Home extends Controller {
 			$users = $this->getFactory()->getModel()->Users();
 			if ($user = $users->getUserByPass($email, $password)) {
 				$_SESSION['user'] = $user;
+				throw new Found($this->getURLHelper()->getUrl('home'));
 			} else {
 				return array('error' => 'Не верный логин или пароль');
 			}
