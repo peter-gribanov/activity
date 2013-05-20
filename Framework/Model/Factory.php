@@ -11,8 +11,7 @@
 namespace Framework\Model;
 
 use Framework\Exception;
-
-use Framework\Database\Table;
+use Framework\Table\Table;
 
 /**
  * Фабрика моделей
@@ -29,6 +28,22 @@ class Factory {
 	 */
 	private $models = array();
 
+	/**
+	 * Фабрика
+	 *
+	 * @var \Framework\Factory
+	 */
+	private $factory;
+
+
+	/**
+	 * Конструктор
+	 *
+	 * @param \Framework\Factory $factory Фабрика
+	 */
+	public function __construct(\Framework\Factory $factory) {
+		$this->factory = $factory;
+	}
 
 	/**
 	 * Получение модели по имени
@@ -40,7 +55,7 @@ class Factory {
 	public function get($name) {
 		if (!isset($this->models[$name])) {
 			$class_name = '\Framework\Model\\'.$name;
-			$this->models[$name] = new $class_name();
+			$this->models[$name] = new $class_name($this->factory->getDatabaseEngine(), $this);
 			if (!($this->models[$name] instanceof Table)) {
 				throw new Exception('Некорректная модель');
 			}

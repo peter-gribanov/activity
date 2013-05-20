@@ -17,6 +17,7 @@ use Framework\Router\URLHelper;
 use Framework\Exception;
 use Framework\Utility\Arr as ArrayUtility;
 use Framework\Database\Engine;
+use Framework\Model\Factory as FactoryModel;
 
 /**
  * Райтинг
@@ -81,6 +82,13 @@ class Factory {
 	 * @var array
 	 */
 	private $db_connections;
+
+	/**
+	 * Фабрика моделей
+	 *
+	 * @var \Framework\Model\Factory
+	 */
+	private $model_factory;
 
 
 	/**
@@ -212,4 +220,17 @@ class Factory {
 		}
 		return $this->db_connections[$connect];
 	}
+
+	/**
+	 * Возвращает фабрику моделей
+	 *
+	 * @return \Framework\Model\Factory
+	 */
+	public function getModel() {
+		if (!$this->model_factory) {
+			$this->model_factory = new FactoryModel($this);
+		}
+		return $this->model_factory;
+	}
+
 }
