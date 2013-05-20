@@ -72,4 +72,22 @@ class Factory {
 		return $this->get('Users');
 	}
 
+	/**
+	 * Модель комментариев
+	 *
+	 * @return \Framework\Model\Comments
+	 */
+	public function Comments() {
+		return $this->get('Comments');
+	}
+
+	/**
+	 * Модель мероприятий
+	 *
+	 * @return \Framework\Model\Activity
+	 */
+	public function Activity() {
+		return $this->get('Activity');
+	}
+
 }

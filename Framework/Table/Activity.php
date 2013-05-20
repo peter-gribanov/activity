@@ -11,19 +11,19 @@
 namespace Framework\Table;
 
 /**
- * Базовая модель пользователей
+ * Базовая модель мероприятий
  *
  * @package Framework\Table
  * @author  Peter Gribanov <info@peter-gribanov.ru>
  */
-class Users extends Table {
+class Activity extends Table {
 
 	/**
 	 * Название таблицы
 	 *
 	 * @var string
 	 */
-	const TABLE_NAME = 'users';
+	const TABLE_NAME = 'activity';
 
 	/**
 	 * Ключевой столбец

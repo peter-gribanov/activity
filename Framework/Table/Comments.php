@@ -11,19 +11,19 @@
 namespace Framework\Table;
 
 /**
- * Базовая модель пользователей
+ * Базовая модель комментариев
  *
  * @package Framework\Table
  * @author  Peter Gribanov <info@peter-gribanov.ru>
  */
-class Users extends Table {
+class Comments extends Table {
 
 	/**
 	 * Название таблицы
 	 *
 	 * @var string
 	 */
-	const TABLE_NAME = 'users';
+	const TABLE_NAME = 'comments';
 
 	/**
 	 * Ключевой столбец
