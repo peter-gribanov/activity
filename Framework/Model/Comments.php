@@ -22,4 +22,45 @@ use Framework\Database\Engine;
  */
 class Comments extends CommentsTable {
 
+	/**
+	 * Возвращает комментарии мероприятия
+	 *
+	 * @param integer $id ID мероприятия
+	 *
+	 * @return array
+	 */
+	public function getActionComments($id) {
+		$table_comments = $this->getTableName();
+		$table_users = $this->factory->Users()->getTableName();
+		$st = $this->engine->prepare('
+			SELECT
+				*
+			FROM
+				`'.$table_comments.'` AS `c`
+			INNER JOIN
+				`'.$table_users.'` AS `u`
+				ON
+					`c`.`user_id` = `u`.`id`
+			WHERE
+				`c`.`action_id` = :id
+		');
+		$st->bindValue(':id', $id, Engine::PARAM_INT);
+		$st->execute();
+		$results = (array)$st->fetchAll();
+		foreach ($results as $key => $value) {
+			$results[$key]['time'] = strtotime($value['time']);
+		}
+		return $results;
+	}
+
+	/**
+	 * (non-PHPdoc)
+	 * @see Framework\Database.Table::get()
+	 */
+	public function get($id) {
+		if ($item = parent::get($id)) {
+			$item['time'] = strtotime($item['time']);
+		}
+		return $item;
+	}
 }
