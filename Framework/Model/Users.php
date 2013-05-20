@@ -10,33 +10,54 @@
 
 namespace Framework\Model;
 
-use Framework\Database\Table;
+use Framework\Table\Users as UsersTable;
+use Framework\Database\Engine;
+
 
 /**
  * Модель пользователей
- * 
+ *
  * @package Framework\Model
  * @author  Peter Gribanov <info@peter-gribanov.ru>
  */
-class Users extends Table {
+class Users extends UsersTable {
 
-	public function get($id) {
-		// TODO get data from sql
-		/*$result = mysql_query('
+	/**
+	 * Роль обычного пользователя
+	 *
+	 * @var integer
+	 */
+	const ROLE_USER = 0;
+
+	/**
+	 * Роль администратора
+	 *
+	 * @var integer
+	 */
+	const ROLE_ADMIN = 1;
+
+
+	/**
+	 * Выбирает пользователя по email и паролю
+	 *
+	 * @param string $email    Email
+	 * @param string $password Пароль
+	 *
+	 * @return array
+	 */
+	public function getUserByPass($email, $password) {
+		$st = $this->engine->prepare('
 			SELECT
-				`first`,
-				`last`
+				*
 			FROM
-				`users`
+				`'.self::TABLE_NAME.'`
 			WHERE
-				`id` = '.intval($id));
-		return mysql_fetch_assoc($result);*/
-
-		// возвращаем данные заглушки вместо реального запроса
-		return array(
-			'first' => 'Arnold',
-            'last'  => 'Schwarzenegger'
-		);
+				`email` = :email AND
+				`password` = :password
+		');
+		$st->bindValue(':email', $email, Engine::PARAM_STR);
+		$st->bindValue(':password', md5($password), Engine::PARAM_STR);
+		$st->execute();
+		return $st->fetch();
 	}
-
 }
