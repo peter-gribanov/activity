@@ -22,6 +22,11 @@ use Framework\Database\Engine;
  */
 class Activity extends ActivityTable {
 
+	/**
+	 * Возвращает список мероприятий с последним комментарием
+	 *
+	 * @return array
+	 */
 	public function getActivityList() {
 		// получем комментарии
 		$activity_table = $this->getTableName();
@@ -32,7 +37,8 @@ class Activity extends ActivityTable {
 				`a`.*,
 				`c`.`time` AS `comment_time`,
 				`c`.`comment` AS `comment_text`,
-				`u`.`name` AS `comment_author`
+				`u`.`name` AS `comment_author`,
+				`u`.`department` AS `comment_department`
 			FROM
 				`'.$activity_table.'` AS `a`
 			LEFT JOIN
@@ -57,12 +63,13 @@ class Activity extends ActivityTable {
 			$result[$key]['comment'] = array();
 			if ($value['comment_time'] && $value['comment_text'] && $value['comment_author']) {
 				$result[$key]['comment'] = array(
-					'time' => strtotime($value['comment_time']),
-					'author' => $value['comment_author'],
-					'text' => $value['comment_text'],
+					'time'       => strtotime($value['comment_time']),
+					'author'     => $value['comment_author'],
+					'text'       => $value['comment_text'],
+					'department' => $value['comment_department'],
 				);
 			}
-			unset($result[$key]['comment_time'], $result[$key]['comment_text'], $result[$key]['comment_author']);
+			unset($result[$key]['comment_time'], $result[$key]['comment_text'], $result[$key]['comment_author'], $result[$key]['comment_department']);
 		}
 
 		return $result;
