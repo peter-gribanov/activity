@@ -8,7 +8,7 @@
  * @license   http://opensource.org/licenses/GPL-3.0 GPL v3
  */
 
-namespace Framework\Http;
+namespace Framework\Http\ClientError;
 
 use Framework\Http\Http;
 use Framework\Http\Status;
@@ -16,7 +16,7 @@ use Framework\Http\Status;
 /**
  * Исключение NotFound
  * 
- * @package Framework\Http
+ * @package Framework\Http\ClientError
  * @author  Peter Gribanov <gribanov@professionali.ru>
  */
 class NotFound extends Http {

@@ -13,7 +13,7 @@ namespace Framework;
 use Framework\Factory;
 use Framework\Request;
 use Framework\Http\Http;
-use Framework\Http\NotFound;
+use Framework\Http\ClientError\NotFound;
 use Framework\Exception;
 use Framework\Router\Node;
 use Framework\Http\Status;
