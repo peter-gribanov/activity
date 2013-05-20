@@ -5,7 +5,7 @@
 ?>
 <?self::extend('html.html.tpl')?>
 <header>
-	<h1>Мероприятия</h1>
+	<a href="<?=self::url('home')?>"><h1>Мероприятия</h1></a>
 	<div class="user"><?=self::execute('Home::login')?></div>
 </header>
 <?=$content?>
