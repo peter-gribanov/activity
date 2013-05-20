@@ -99,16 +99,8 @@ abstract class Table {
 	 *
 	 * @return array
 	 */
-	public function fetchAll($where = 'true', array $params = array()) {
-		/* @var $st \Framework\Database\Statement */
-		$st = $this->engine->prepare('
-			SELECT
-				*
-			FROM
-				`'.static::TABLE_NAME.'`
-			WHERE
-				'.$where
-		);
+	public function fetchAll($where = '', array $params = array()) {
+		$st = $this->engine->prepare('SELECT * FROM `'.static::TABLE_NAME.'`'.($where ? ' WHERE '.$where : ''));
 		$st->execute($params);
 		return $st->fetchAll();
 	}
@@ -121,16 +113,8 @@ abstract class Table {
 	 *
 	 * @return array
 	 */
-	public function fetchRow($where, array $params = array()) {
-		/* @var $st \Framework\Database\Statement */
-		$st = $this->engine->prepare('
-			SELECT
-				*
-			FROM
-				`'.static::TABLE_NAME.'`
-			WHERE
-				'.$where
-		);
+	public function fetchRow($where = '', array $params = array()) {
+		$st = $this->engine->prepare('SELECT * FROM `'.static::TABLE_NAME.'`'.($where ? ' WHERE '.$where : ''));
 		$st->execute($params);
 		return $st->fetch();
 	}
