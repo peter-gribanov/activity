@@ -75,4 +75,16 @@ class Activity extends ActivityTable {
 		return $result;
 	}
 
+	/**
+	 * (non-PHPdoc)
+	 * @see Framework\Database.Table::get()
+	 */
+	public function get($id) {
+		if ($item = parent::get($id)) {
+			$item['date_start'] = strtotime($item['date_start']);
+			$item['date_end'] = strtotime($item['date_end']);
+		}
+		return $item;
+	}
+
 }
