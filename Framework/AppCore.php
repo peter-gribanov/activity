@@ -19,6 +19,7 @@ use Framework\Router\Node;
 use Framework\Http\Status;
 use Framework\Response\Response;
 use Framework\Response\Json as JsonResponse;
+use Framework\Http\Redirection\Redirection;
 
 /**
  * Контроллер распределения запросов
@@ -87,33 +88,38 @@ class AppCore {
 			$response = $factory->getResponse($present, $e->getMessage().($factory->getConfig('debug') ? "\n".$e->getTraceAsString() : ''));
 
 			if (PHP_SAPI != 'cli') {
-				if ($e instanceof NotFound) {
-					$status = new Status($e->getCode());
+				if ($e instanceof Redirection) {
+					$response->addHeader('Location', $e->getUrl())
+						->setStatus(new Status($e->getCode()));
 				} else {
-					$status = new Status(Status::INTERNAL_SERVER_ERROR);
-				}
-
-				// описание ошибки
-				$data = array(
-					'code'    => $e->getCode() ?: Status::INTERNAL_SERVER_ERROR,
-					'error'   => Status::getString($status->getCode()),
-					'message' => $e->getMessage(),
-					'trace'   => $e->getTraceAsString(),
-					'debug'   => $factory->getConfig('debug'),
-				);
-
-				if ($present == JsonResponse::NAME) {
-					$content = json_encode($data);
-				} else {
-					// пытаемся отрендерить шаблон для ошибки
-					try {
-						$content = $factory->getView()->assign($data)->render('errors/default.'.$present.'.tpl', true);
-					} catch (\Exception $e) {
-						$content = $e->getMessage().($factory->getConfig('debug') ? "\n".$e->getTraceAsString() : '');
-						$status  = new Status(Status::INTERNAL_SERVER_ERROR);
+					if ($e instanceof NotFound) {
+						$status = new Status($e->getCode());
+					} else {
+						$status = new Status(Status::INTERNAL_SERVER_ERROR);
 					}
+	
+					// описание ошибки
+					$data = array(
+						'code'    => $e->getCode() ?: Status::INTERNAL_SERVER_ERROR,
+						'error'   => Status::getString($status->getCode()),
+						'message' => $e->getMessage(),
+						'trace'   => $e->getTraceAsString(),
+						'debug'   => $factory->getConfig('debug'),
+					);
+	
+					if ($present == JsonResponse::NAME) {
+						$content = json_encode($data);
+					} else {
+						// пытаемся отрендерить шаблон для ошибки
+						try {
+							$content = $factory->getView()->assign($data)->render('errors/default.'.$present.'.tpl', true);
+						} catch (\Exception $e) {
+							$content = $e->getMessage().($factory->getConfig('debug') ? "\n".$e->getTraceAsString() : '');
+							$status  = new Status(Status::INTERNAL_SERVER_ERROR);
+						}
+					}
+					$response->setContent($content)->setStatus($status);
 				}
-				$response->setContent($content)->setStatus($status);
 			}
 
 			$response->transmit();
