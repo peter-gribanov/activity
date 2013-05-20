@@ -44,7 +44,18 @@ class Home extends Controller {
 	 * @return array
 	 */
 	public function showAction() {
-		return array();
+		if (!($id = $this->getRequest()->get('id'))) {
+			throw new NotFound('Не выбрано мероприятие');
+		}
+		if (!($action = $this->getFactory()->getModel()->Activity()->get($id))) {
+			p($this->getFactory()->getModel()->Activity()->get($id));
+			throw new NotFound('Мероприятие не найдено');
+		}
+
+		return array(
+			'action' => $action,
+			'comments' => $this->getFactory()->getModel()->Comments()->getActionComments($id)
+		);
 	}
 
 	/**
