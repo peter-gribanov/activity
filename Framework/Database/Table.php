@@ -83,9 +83,8 @@ abstract class Table {
 			FROM
 				`'.static::TABLE_NAME.'`
 			WHERE
-				:primary = :id
-			');
-		$st->bindValue(':primary', $this->column_primary, Engine::PARAM_ID);
+				`'.$this->column_primary.'` = :id
+		');
 		$st->bindValue(':id', $id, Engine::PARAM_STR);
 		$st->execute();
 		return $st->fetch();
