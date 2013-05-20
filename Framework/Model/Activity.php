@@ -20,6 +20,6 @@ use Framework\Database\Engine;
  * @package Framework\Model
  * @author  Peter Gribanov <info@peter-gribanov.ru>
  */
-class Activity extends CommentsTable {
+class Activity extends ActivityTable {
 
 }
