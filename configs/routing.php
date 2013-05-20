@@ -29,9 +29,9 @@ return array(
 		'controller' => 'Home::remove',
 		'present'    => 'html'
 	),
-	'home_card' => array(
-		'pattern'    => '/card.html',
-		'controller' => 'Home::card',
+	'home_show' => array(
+		'pattern'    => '/show.html',
+		'controller' => 'Home::show',
 		'present'    => 'html'
 	),
 	'home_users' => array(

@@ -10,6 +10,8 @@
 
 namespace Framework\Controller;
 
+use Framework\Http\ClientError\NotFound;
+
 use Framework\Controller\Controller;
 use Framework\Database\Engine;
 use Framework\Model\Users;
@@ -37,11 +39,11 @@ class Home extends Controller {
 	}
 
 	/**
-	 * Карточка мероприятия
+	 * Просмотр мероприятия
 	 *
 	 * @return array
 	 */
-	public function cardAction() {
+	public function showAction() {
 		return array();
 	}
 

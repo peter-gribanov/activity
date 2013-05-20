@@ -33,7 +33,7 @@
 						<?=date('d F', $action['date_start'])?>-<?=date('d F', $action['date_end'])?>
 					<?endif?>
 				</td>
-				<td><?=$action['name']?></td>
+				<td><a href="<?=self::path('home_show', array('id' => $action['id']))?>"><?=$action['name']?></a></td>
 				<td><?=$action['company']?></td>
 				<td><?=$action['venue']?></td>
 				<td><?=$action['price']?> руб.</td>
