@@ -15,13 +15,6 @@ use Framework\Table\Table;
 /**
  * Базовая модель пользователей
  *
- * @property integer $id         ID
- * @property string  $name       ФИО
- * @property string  $department Департамент
- * @property string  $email      Email
- * @property string  $password   Пароль
- * @property integer $role       Роль
- *
  * @package Framework\Table
  * @author  Peter Gribanov <info@peter-gribanov.ru>
  */
