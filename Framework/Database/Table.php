@@ -205,4 +205,52 @@ abstract class Table {
 		}
 		return $st->execute();
 	}
+
+	/**
+	 * Изменяет запись
+	 *
+	 * @param array  $data   Новые данные
+	 * @param string $where  Условие выбора
+	 * @param array  $params Параметры выбора
+	 *
+	 * @return boolean
+	 */
+	public function update(array $data, $where, array $params = array()) {
+		if (!$data || !$where) {
+			return false;
+		}
+		// шаблоны для подстановки
+		$set = array_map(function ($column) {
+			return '`'.$column.'` = :'.$column;
+		}, array_keys($data));
+
+		$st = $this->engine->prepare('
+			UPDATE
+				`'.static::TABLE_NAME.'`
+			SET
+				'.implode(',', $set).'
+			WHERE
+				'.$where
+		);
+		$params = array_merge($data, $params);
+		foreach ($params as $key => $value) {
+			$st->bindValue($key, $value);
+		}
+		return $st->execute();
+	}
+
+	/**
+	 * Изменяет запись по ее ID
+	 *
+	 * @param array   $data Новые данные
+	 * @param integer $id   ID
+	 *
+	 * @return boolean
+	 */
+	public function updateById(array $data, $id) {
+		if (!$data || !$id) {
+			return false;
+		}
+		return $this->update($data, '`'.$this->column_primary.'` = :id', array(':id' => $id));
+	}
 }
