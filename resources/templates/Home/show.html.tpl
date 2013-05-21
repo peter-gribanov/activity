@@ -10,7 +10,9 @@
 <h2><?=$action['name']?></h2>
 <p><strong>Дата</strong> <?=self::rudateinterval($action['date_start'], $action['date_end'])?></p>
 <p><strong>Организатор</strong> <?=$action['company']?></p>
-<p><strong>Цена</strong> <?if($action['price']):?><?=$action['price']?> руб.<?else:?>бесплатно<?endif;?></p>
+<?if($action['price']):?>
+	<p><strong>Цена</strong> <?=$action['price']?>
+<?endif?>
 <p><strong>Место проведения</strong> <?=$action['venue']?></p>
 <?if($action['offer']):?>
 	<p><strong>Что предлагают</strong> <?=$action['offer']?></p>

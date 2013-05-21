@@ -15,7 +15,6 @@
 			<th>Цена</th>
 			<th>Что предлагают</th>
 			<th>Чем воспользовались и представитель</th>
-			<!-- <th>Представитель</th> -->
 			<?if($is_admin):?>
 				<th>Пометки</th>
 			<?endif;?>
@@ -30,10 +29,9 @@
 				<td><a href="<?=self::path('home_show', array('id' => $action['id']))?>"><?=$action['name']?></a></td>
 				<td><?=$action['company']?></td>
 				<td><?=$action['venue']?></td>
-				<td><?if($action['price']):?><?=$action['price']?> руб.<?else:?>бесплатно<?endif;?></td>
+				<td><?=$action['price']?></td>
 				<td><?=$action['offer']?></td>
 				<td><?=$action['used']?></td>
-				<!-- <td><?=$action['representative']?></td> -->
 				<?if($is_admin):?>
 					<td><?=$action['note']?></td>
 				<?endif;?>
