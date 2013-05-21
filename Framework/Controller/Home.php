@@ -97,7 +97,29 @@ class Home extends Controller {
 	 * @return array
 	 */
 	public function removeAction() {
-		return array();
+		if (empty($_SESSION['user']) || $_SESSION['user']['role'] != Users::ROLE_ADMIN) {
+			throw new Forbidden('Доступ к разделу запрещен');
+		}
+		if (!($id = $this->getRequest()->get('id'))) {
+			throw new NotFound('Не выбрано мероприятие');
+		}
+		if (!($action = $this->getFactory()->getModel()->Activity()->get($id))) {
+			throw new NotFound('Мероприятие не найдено');
+		}
+
+		// удаление или перенаправление домой
+		if ($this->getRequest()->server('REQUEST_METHOD', 'GET') == 'POST' &&
+			($remove = $this->getRequest()->post('remove'))
+		) {
+			if ($remove == 'yes') {
+				$this->getFactory()->getModel()->Activity()->deleteById($id);
+			}
+			throw new Found($this->getURLHelper()->getUrl('home'));
+		}
+
+		return array(
+			'action' => $action
+		);
 	}
 
 	/**
