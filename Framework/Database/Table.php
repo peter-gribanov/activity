@@ -142,4 +142,67 @@ abstract class Table {
 		$st->execute();
 		return $this->engine->lastInsertId();
 	}
+
+	/**
+	 * Удаляет запись(и)
+	 *
+	 * @param string $where  Условие выбора
+	 * @param array  $params Параметры выбора
+	 *
+	 * @return boolean
+	 */
+	public function delete($where, array $params = array()) {
+		$st = $this->engine->prepare('
+			DELETE FROM
+				`'.static::TABLE_NAME.'`
+			WHERE
+				'.$where
+		);
+		foreach ($params as $key => $value) {
+			$st->bindValue($key, $value);
+		}
+		return $st->execute();
+	}
+
+	/**
+	 * Удаляет запись по ее ID
+	 *
+	 * @param integer $id ID записи
+	 *
+	 * @return boolean
+	 */
+	public function deleteById($id) {
+		$st = $this->engine->prepare('
+			DELETE FROM
+				`'.static::TABLE_NAME.'`
+			WHERE
+				`'.$this->column_primary.'` = :id
+		');
+		$st->bindValue(':id', $id);
+		return $st->execute();
+	}
+
+	/**
+	 * Удаляет список записей по их ID
+	 *
+	 * @param array $ids Список ID
+	 *
+	 * @return boolean
+	 */
+	public function deleteByIds(array $ids) {
+		if (!$ids) {
+			return false;
+		}
+		$ids = array_values($ids);
+		$st = $this->engine->prepare('
+			DELETE FROM
+				`'.static::TABLE_NAME.'`
+			WHERE
+				`'.$this->column_primary.'` IN ('.implode(',', array_fill(0, count($ids), '?')).')
+		');
+		for ($i = 0; $i < count($ids); $i++) {
+			$st->bindValue($i, $id);
+		}
+		return $st->execute();
+	}
 }
