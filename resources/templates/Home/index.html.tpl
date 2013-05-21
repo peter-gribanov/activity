@@ -6,7 +6,7 @@
 ?>
 <?self::extend('layouts/default.html.tpl')?>
 <?if(!empty($list)):?>
-	<table>
+	<table class="t-activity">
 		<tr>
 			<th>Дата</th>
 			<th>Наименование мероприятия</th>
@@ -21,7 +21,7 @@
 			<?endif;?>
 			<th>Последний комментарий</th>
 			<?if($is_admin):?>
-				<th><a href="<?=self::path('home_add')?>">Добавить +</a></th>
+				<th><a href="<?=self::path('home_add')?>" class="bt-action-add">Добавить</a></th>
 			<?endif;?>
 		</tr>
 		<?foreach ($list as $action):?>
@@ -51,8 +51,8 @@
 				</td>
 				<?if($is_admin):?>
 					<td>
-						<a href="<?=self::path('home_edit', array('id' => $action['id']))?>">Редактировать</a>
-						<a href="<?=self::path('home_remove', array('id' => $action['id']))?>">Удалить</a>
+						<a href="<?=self::path('home_edit', array('id' => $action['id']))?>" class="bt-action-edit">Редактировать</a>
+						<a href="<?=self::path('home_remove', array('id' => $action['id']))?>" class="bt-action-remove">Удалить</a>
 					</td>
 				<?endif;?>
 			</tr>
