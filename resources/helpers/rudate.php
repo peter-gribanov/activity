@@ -23,6 +23,6 @@ return function ($timestamp = null) {
 		return 'Вчера';
 	} else {
 		$months = array('Января', 'Февраля', 'Марта', 'Апреля', 'Мая', 'Июня', 'Июля', 'Августа', 'Сентебря', 'Октября', 'Ноября', 'Декабря');
-		return date('j ').$months[date('n')-1].date(' Y');
+		return date('j ', $timestamp).$months[date('n', $timestamp)-1].date(' Y', $timestamp);
 	}
 };
