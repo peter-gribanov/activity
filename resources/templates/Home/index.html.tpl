@@ -26,17 +26,11 @@
 		</tr>
 		<?foreach ($list as $action):?>
 			<tr>
-				<td>
-					<?if(date('m', $action['date_start']) == date('m', $action['date_end'])):?>
-						<?=date('d', $action['date_start'])?>-<?=date('d F', $action['date_end'])?>
-					<?else:?>
-						<?=date('d F', $action['date_start'])?>-<?=date('d F', $action['date_end'])?>
-					<?endif?>
-				</td>
+				<td><?=self::rudateinterval($action['date_start'], $action['date_end'])?></td>
 				<td><a href="<?=self::path('home_show', array('id' => $action['id']))?>"><?=$action['name']?></a></td>
 				<td><?=$action['company']?></td>
 				<td><?=$action['venue']?></td>
-				<td><?=$action['price']?> руб.</td>
+				<td><?if($action['price']):?><?=$action['price']?> руб.<?else:?>бесплатно<?endif;?></td>
 				<td><?=$action['offer']?></td>
 				<td><?=$action['used']?></td>
 				<!-- <td><?=$action['representative']?></td> -->
