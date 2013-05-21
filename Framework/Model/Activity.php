@@ -49,6 +49,8 @@ class Activity extends ActivityTable {
 				`'.$users_table.'` AS `u`
 				ON
 					`u`.`id` = `c`.`user_id`
+			GROUP BY
+				`a`.`id`
 			ORDER BY
 				`date_start`,
 				strftime(\'%s\', `time`) ASC
@@ -63,7 +65,7 @@ class Activity extends ActivityTable {
 			$result[$key]['comment'] = array();
 			if ($value['comment_time'] && $value['comment_text'] && $value['comment_author']) {
 				$result[$key]['comment'] = array(
-					'time'       => strtotime($value['comment_time']),
+					'time'       => $value['comment_time'],
 					'author'     => $value['comment_author'],
 					'text'       => $value['comment_text'],
 					'department' => $value['comment_department'],

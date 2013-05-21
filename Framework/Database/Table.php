@@ -117,4 +117,29 @@ abstract class Table {
 		$st->execute($params);
 		return $st->fetch();
 	}
+
+	/**
+	 * Вставляет запись в таблицу
+	 *
+	 * @param array $data Данные
+	 *
+	 * @return integer
+	 */
+	public function insert(array $data) {
+		if (!$data) {
+			return false;
+		}
+		$st = $this->engine->prepare('
+			INSERT INTO
+				`'.static::TABLE_NAME.'`
+				(`'.implode('`,`', array_keys($data)).'`)
+			VALUES
+				(:'.implode(',:', array_keys($data)).')
+		');
+		foreach ($data as $column => $value) {
+			$st->bindValue(':'.$column, $value);
+		}
+		$st->execute();
+		return $this->engine->lastInsertId();
+	}
 }

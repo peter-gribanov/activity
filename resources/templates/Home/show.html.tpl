@@ -1,7 +1,8 @@
 <?
 /**
- * @param array $action
- * @param array $comments
+ * @param array   $action
+ * @param booelan $is_login
+ * @param array   $comments
  */
 ?>
 <?self::extend('layouts/default.html.tpl')?>
@@ -28,11 +29,15 @@
 	<?endforeach?>
 </div>
 <?else:?>
-Нет комментариев
+Нет комментариев<br>
 <?endif?>
-<div class="b-add-comment">
-	<form action="" method="post">
-		<textarea rows="5" cols="60" name="comment"></textarea><br />
-		<button type="submit">Отправить</button>
-	</form>
-</div>
+<?if($is_login):?>
+	<div class="b-add-comment">
+		<form action="" method="post">
+			<textarea rows="5" cols="60" name="comment"></textarea><br />
+			<button type="submit">Отправить</button>
+		</form>
+	</div>
+<?else:?>
+	Вам необходимо авторизоваться для того чтобы добавить комментарий<br>
+<?endif;?>

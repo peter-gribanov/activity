@@ -48,12 +48,27 @@ class Home extends Controller {
 			throw new NotFound('Не выбрано мероприятие');
 		}
 		if (!($action = $this->getFactory()->getModel()->Activity()->get($id))) {
-			p($this->getFactory()->getModel()->Activity()->get($id));
 			throw new NotFound('Мероприятие не найдено');
+		}
+
+		// добавление комментария
+		if (!empty($_SESSION['user']) &&
+			$this->getRequest()->server('REQUEST_METHOD', 'GET') == 'POST' &&
+			($comment = $this->getRequest()->post('comment'))
+		) {
+			$comments = $this->getFactory()->getModel()->Comments();
+			$comments->insert(array(
+				'user_id' => $_SESSION['user']['id'],
+				'action_id' => $id,
+				'time' => time(),
+				'comment' => $comment
+			));
+			throw new Found($this->getURLHelper()->getUrl('home_show', array('id' => $id)));
 		}
 
 		return array(
 			'action' => $action,
+			'is_login' => !empty($_SESSION['user']),
 			'comments' => $this->getFactory()->getModel()->Comments()->getActionComments($id)
 		);
 	}

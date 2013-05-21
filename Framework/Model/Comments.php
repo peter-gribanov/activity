@@ -43,24 +43,11 @@ class Comments extends CommentsTable {
 					`c`.`user_id` = `u`.`id`
 			WHERE
 				`c`.`action_id` = :id
+			ORDER BY
+				`time` DESC
 		');
 		$st->bindValue(':id', $id, Engine::PARAM_INT);
 		$st->execute();
-		$results = (array)$st->fetchAll();
-		foreach ($results as $key => $value) {
-			$results[$key]['time'] = strtotime($value['time']);
-		}
-		return $results;
-	}
-
-	/**
-	 * (non-PHPdoc)
-	 * @see Framework\Database.Table::get()
-	 */
-	public function get($id) {
-		if ($item = parent::get($id)) {
-			$item['time'] = strtotime($item['time']);
-		}
-		return $item;
+		return (array)$st->fetchAll();
 	}
 }
