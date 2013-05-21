@@ -25,7 +25,7 @@ return function (array $values, $timestamp = null) {
 	// учитываем при расчете минуты
 	$hour = round((date('H', $timestamp)*3600+date('i', $timestamp)) / 3600);
 
-	$values = array('morning', 'day', 'evening', 'night') + $values;
+	$values = $values + array('morning', 'day', 'evening', 'night');
 	if ($hour >= 4 && $hour < 12) {
 		return $values[0];
 	} elseif ($hour >= 12 && $hour < 17) {
