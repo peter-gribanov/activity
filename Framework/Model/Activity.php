@@ -59,8 +59,6 @@ class Activity extends ActivityTable {
 		$result = $st->fetchAll();
 		// конвертация данных
 		foreach ($result as $key => $value) {
-			$result[$key]['date_start'] = strtotime($value['date_start']);
-			$result[$key]['date_end'] = strtotime($value['date_end']);
 			// оформляем последний комментарий
 			$result[$key]['comment'] = array();
 			if ($value['comment_time'] && $value['comment_text'] && $value['comment_author']) {
