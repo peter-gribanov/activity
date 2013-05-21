@@ -193,34 +193,11 @@ class HelperUtility {
 	 * @return string
 	 */
 	public function render($template, array $vars = array()) {
-		// сохраняем стек шаблонов
-		$tpl_stack = $this->tpl_stack;
-		$this->tpl_stack = array();
+		$view = $this->view;
+		return $this->safe(function() use ($view, $template, $vars) {
+			return $view->assign($vars)->render($template, true);
+		});
 
-		// на случай если вызов выполняется в буферезируемом блоке
-		$buffer = $block_name = $block_buffer = '';
-		if ($this->block) {
-			$buffer = $this->buffer;
-			$block_name = $this->block;
-			$block_buffer = ob_get_clean();
-			$this->block = $this->buffer = '';
-		}
-
-		// рендерим шаблон
-		$content = $this->view->assign($vars)->render($template, true);
-
-		// восстанавливаем буферизируемые данные
-		if ($block_name) {
-			$this->buffer = $buffer;
-			$this->block = $block_name;
-			$content = $block_buffer.$content;
-			ob_start();
-		}
-
-		// восстанавливаем стек шаблонов
-		$this->tpl_stack = $tpl_stack;
-
-		return $content;
 	}
 
 	/**
@@ -241,6 +218,47 @@ class HelperUtility {
 	 * @return string
 	 */
 	public function execute($pointer, array $params = array()) {
-		return $this->app->executeByRoute($pointer, $params);
+		$app = $this->app;
+		return $this->safe(function() use ($app, $pointer, $params) {
+			return $app->executeByRoute($pointer, $params);
+		});
+	}
+
+	/**
+	 * Безопасное выполнение действия
+	 *
+	 * @param \Closure $action Действие
+	 *
+	 * @return string
+	 */
+	private function safe(\Closure $action) {
+		// сохраняем стек шаблонов
+		$tpl_stack = $this->tpl_stack;
+		$this->tpl_stack = array();
+
+		// на случай если вызов выполняется в буферезируемом блоке
+		$buffer = $block_name = $block_buffer = '';
+		if ($this->block) {
+			$buffer = $this->buffer;
+			$block_name = $this->block;
+			$block_buffer = ob_get_clean();
+			$this->block = $this->buffer = '';
+		}
+
+		// выполнение
+		$content = $action();
+
+		// восстанавливаем буферизируемые данные
+		if ($block_name) {
+			$this->buffer = $buffer;
+			$this->block = $block_name;
+			$content = $block_buffer.$content;
+			ob_start();
+		}
+
+		// восстанавливаем стек шаблонов
+		$this->tpl_stack = $tpl_stack;
+
+		return $content;
 	}
 }
