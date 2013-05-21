@@ -105,6 +105,7 @@ class Home extends Controller {
 			) {
 				return array('error' => 'Некорректно указана дата начала и окончания мероприятия');
 			}
+
 			$data = array(
 				'name' => $this->getRequest()->post('name'),
 				'date_start' => strtotime($this->getRequest()->post('date_start')),
@@ -118,7 +119,12 @@ class Home extends Controller {
 			);
 			unset($action['id']);
 			if ($data = array_diff($data, $action)) {
+				$action['id'] = $id;
 				$this->getFactory()->getModel()->Activity()->updateById($data, $id);
+				// отправляем уведомление об изменениях если изменены не заметки
+				if (array_keys($data) != array('note')) {
+					$this->notifyUsers('Home/edit/message.html.tpl', array('chenges' => $data, 'action' => $action));
+				}
 			}
 			throw new Found($this->getURLHelper()->getUrl('home'));
 		}
@@ -238,5 +244,29 @@ class Home extends Controller {
 		return array(
 			'user' => !empty($_SESSION['user']) ? $_SESSION['user'] : array()
 		);
+	}
+
+	/**
+	 * Уведомление пользователей
+	 *
+	 * @param string $template Шаблон
+	 * @param array  $data     Данные
+	 */
+	private function notifyUsers($template, array $data = array()) {
+		$data['author'] = !empty($_SESSION['user']) ? $_SESSION['user'] : array();
+		$from = !empty($_SESSION['user']) ? $_SESSION['user']['email'] : 'no-replay@example.com';
+		$headers  = 'MIME-Version: 1.0'."\r\n";
+		$headers .= 'Content-type: text/html; charset=utf-8'."\r\n";
+		$headers .= 'From: '.$from."\r\n";
+
+		$users = $this->getFactory()->getModel()->Users()->fetchAll();
+		foreach ($users as $user) {
+			// не отправляем себе
+			if ($user['email'] != $from) {
+				$data['recipient'] = $user;
+				$message = $this->getView()->assign($data)->render($template);
+				mail($user['email'], 'В мероприятии произведены изменения', $message, $headers);
+			}
+		}
 	}
 }
