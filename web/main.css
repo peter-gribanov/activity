@@ -12,3 +12,22 @@ th,
 td {
 	border: 1px gray solid;
 }
+
+
+
+.b-row {
+	clear: both;
+}
+.b-row .b-coll {
+	float: left;
+	margin-bottom: 3px;
+	width: 300px;
+}
+.b-row .b-coll:first-child {
+	width: 220px;
+}
+.b-row .b-coll input[type~=text],
+.b-row .b-coll input[type~=password],
+.b-row .b-coll input[type~=email] {
+	width: 300px;
+}
