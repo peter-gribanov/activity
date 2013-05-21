@@ -82,7 +82,49 @@ class Home extends Controller {
 		if (empty($_SESSION['user']) || $_SESSION['user']['role'] != Users::ROLE_ADMIN) {
 			throw new Forbidden('Доступ к разделу запрещен');
 		}
-		return array();
+		if (!($id = $this->getRequest()->get('id'))) {
+			throw new NotFound('Не выбрано мероприятие');
+		}
+		if (!($action = $this->getFactory()->getModel()->Activity()->get($id))) {
+			throw new NotFound('Мероприятие не найдено');
+		}
+
+		// обновление мероприятия
+		if ($this->getRequest()->server('REQUEST_METHOD', 'GET') == 'POST') {
+			if (!$this->getRequest()->post('name')) {
+				return array('error' => 'Не указано название мероприятия');
+			}
+			if (!$this->getRequest()->post('company')) {
+				return array('error' => 'Не указан организатор мероприятия');
+			}
+			if (!$this->getRequest()->post('venue')) {
+				return array('error' => 'Не указано мето проведения мероприятия');
+			}
+			if (!strtotime($this->getRequest()->post('date_start')) ||
+				!strtotime($this->getRequest()->post('date_end'))
+			) {
+				return array('error' => 'Некорректно указана дата начала и окончания мероприятия');
+			}
+			$data = array(
+				'name' => $this->getRequest()->post('name'),
+				'date_start' => strtotime($this->getRequest()->post('date_start')),
+				'date_end' => strtotime($this->getRequest()->post('date_end')),
+				'company' => $this->getRequest()->post('company'),
+				'venue' => $this->getRequest()->post('venue'),
+				'price' => $this->getRequest()->post('price'),
+				'offer' => $this->getRequest()->post('offer'),
+				'used' => $this->getRequest()->post('used'),
+				'note' => $this->getRequest()->post('note'),
+			);
+			unset($action['id']);
+			if ($data = array_diff($data, $action)) {
+				$this->getFactory()->getModel()->Activity()->updateById($data, $id);
+			}
+			throw new Found($this->getURLHelper()->getUrl('home'));
+		}
+		return array(
+			'action' => $action
+		);
 	}
 
 	/**

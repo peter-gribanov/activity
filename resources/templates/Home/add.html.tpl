@@ -49,7 +49,7 @@
 					id="action-add-date_end"
 					min="<?=date('Y-m-d')?>"
 					required="required"
-					value="<?if(!empty($_POST['date_start'])):?><?=$_POST['date_start']?><?else:?><?=date('Y-m-d')?><?endif?>"
+					value="<?if(!empty($_POST['date_end'])):?><?=$_POST['date_end']?><?else:?><?=date('Y-m-d')?><?endif?>"
 				>
 			</div>
 		</div>
