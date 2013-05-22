@@ -71,32 +71,12 @@ class Admin extends Controller {
 
 		// обновление мероприятия
 		if ($this->getRequest()->server('REQUEST_METHOD', 'GET') == 'POST') {
-			if (!$this->getRequest()->post('name')) {
-				return array('error' => 'Не указано название мероприятия');
-			}
-			if (!$this->getRequest()->post('company')) {
-				return array('error' => 'Не указан организатор мероприятия');
-			}
-			if (!$this->getRequest()->post('venue')) {
-				return array('error' => 'Не указано мето проведения мероприятия');
-			}
-			if (!strtotime($this->getRequest()->post('date_start')) ||
-				!strtotime($this->getRequest()->post('date_end'))
-			) {
-				return array('error' => 'Некорректно указана дата начала и окончания мероприятия');
+			// получение данных и их валидация
+			$data = $this->getActionDataFromRequest();
+			if (($result = $this->validateActionData($data)) !== true) {
+				return array('error' => $result);
 			}
 
-			$data = array(
-				'name' => $this->getRequest()->post('name'),
-				'date_start' => strtotime($this->getRequest()->post('date_start')),
-				'date_end' => strtotime($this->getRequest()->post('date_end')),
-				'company' => $this->getRequest()->post('company'),
-				'venue' => $this->getRequest()->post('venue'),
-				'price' => $this->getRequest()->post('price'),
-				'offer' => $this->getRequest()->post('offer'),
-				'used' => $this->getRequest()->post('used'),
-				'note' => $this->getRequest()->post('note'),
-			);
 			// игнорируем id при сравнении
 			unset($action['id']);
 			$data = array_diff_assoc($data, $action);
@@ -124,31 +104,13 @@ class Admin extends Controller {
 	public function addAction() {
 		// добавление мероприятия
 		if ($this->getRequest()->server('REQUEST_METHOD', 'GET') == 'POST') {
-			if (!$this->getRequest()->post('name')) {
-				return array('error' => 'Не указано название мероприятия');
+			// получение данных и их валидация
+			$data = $this->getActionDataFromRequest();
+			if (($result = $this->validateActionData($data)) !== true) {
+				return array('error' => $result);
 			}
-			if (!$this->getRequest()->post('company')) {
-				return array('error' => 'Не указан организатор мероприятия');
-			}
-			if (!$this->getRequest()->post('venue')) {
-				return array('error' => 'Не указано мето проведения мероприятия');
-			}
-			if (!strtotime($this->getRequest()->post('date_start')) ||
-				!strtotime($this->getRequest()->post('date_end'))
-			) {
-				return array('error' => 'Некорректно указана дата начала и окончания мероприятия');
-			}
-			$id = $this->getFactory()->getModel()->Activity()->insert(array(
-				'name' => $this->getRequest()->post('name'),
-				'date_start' => strtotime($this->getRequest()->post('date_start')),
-				'date_end' => strtotime($this->getRequest()->post('date_end')),
-				'company' => $this->getRequest()->post('company'),
-				'venue' => $this->getRequest()->post('venue'),
-				'price' => $this->getRequest()->post('price'),
-				'offer' => $this->getRequest()->post('offer'),
-				'used' => $this->getRequest()->post('used'),
-				'note' => $this->getRequest()->post('note'),
-			));
+
+			$id = $this->getFactory()->getModel()->Activity()->insert($data);
 			throw new Found($this->getURLHelper()->getUrl('home_show', array('id' => $id)));
 		}
 		return array();
@@ -204,5 +166,60 @@ class Admin extends Controller {
 				mail($user['email'], 'В мероприятии произведены изменения', $message, $headers);
 			}
 		}
+	}
+
+	/**
+	 * Возвращает данные мероприятия из запроса
+	 *
+	 * @return array
+	 */
+	private function getActionDataFromRequest() {
+		$request = $this->getRequest();
+		return array(
+			'name' => $request->post('name'),
+			'date_start' => strtotime($request->post('date_start')),
+			'date_end' => strtotime($request->post('date_end')),
+			'company' => $request->post('company'),
+			'venue' => $request->post('venue'),
+			'price' => $request->post('price'),
+			'offer' => $request->post('offer'),
+			'used' => $request->post('used'),
+			'note' => $request->post('note'),
+		);
+	}
+
+	/**
+	 * Проверяет валидность данных мероприятия
+	 *
+	 * @param array $data Данные мероприятия
+	 *
+	 * @return boolean
+	 */
+	private function validateActionData(array $data) {
+		if (empty($data['name'])) {
+			return 'Не указано название мероприятия';
+		}
+		if (empty($data['company'])) {
+			return 'Не указан организатор мероприятия';
+		}
+		if (empty($data['venue'])) {
+			return 'Не указано мето проведения мероприятия';
+		}
+		if (empty($data['date_start'])) {
+			return 'Не указана дата начала мероприятия';
+		}
+		if (empty($data['date_end'])) {
+			return 'Не указана дата окончания мероприятия';
+		}
+		if (!$data['date_start']) {
+			return 'Некорректно указана дата начала мероприятия';
+		}
+		if (!$data['date_end']) {
+			return 'Некорректно указана дата окончания мероприятия';
+		}
+		if ($data['date_end'] < $data['date_start']) {
+			return 'Дата окончания мероприятия раньше даты начала';
+		}
+		return true;
 	}
 }
