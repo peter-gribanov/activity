@@ -7,8 +7,8 @@
  */
 ?>
 <?self::extend('html.html.tpl')?>
-<?self::assign('page_title', 'Ошибка: '.$error)?>
+<?self::assign('page_title', 'Ошибка: '.self::escape($error))?>
 <div class="b-fatal-error">
-	<h1><?=$error?></h1>
-	<p><?=$code?>: <?=$message?></p>
+	<h1><?=self::escape($error)?></h1>
+	<p><?=$code?>: <?=self::escape($message)?></p>
 </div>

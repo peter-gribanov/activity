@@ -8,7 +8,7 @@
 ?>
 <?='<?xml version="1.1" encoding="utf-8"?>'?>
 <root>
-	<code><?=$code?></code>
-	<error><?=$error?></error>
-	<message><?=$message?></message>
+	<code><?=self::escape($code)?></code>
+	<error><?=self::escape($error)?></error>
+	<message><?=self::escape($message)?></message>
 </root>

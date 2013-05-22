@@ -26,19 +26,19 @@
 		<?foreach ($list as $event):?>
 			<tr>
 				<td><?=self::rudateinterval($event['date_start'], $event['date_end'])?></td>
-				<td><a href="<?=self::path('home_show', array('id' => $event['id']))?>"><?=$event['name']?></a></td>
-				<td><?=$event['company']?></td>
-				<td><?=$event['venue']?></td>
-				<td><?=$event['price']?></td>
-				<td><?=$event['offer']?></td>
-				<td><?=$event['used']?></td>
+				<td><a href="<?=self::path('home_show', array('id' => $event['id']))?>"><?=self::escape($event['name'])?></a></td>
+				<td><?=self::escape($event['company'])?></td>
+				<td><?=self::escape($event['venue'])?></td>
+				<td><?=self::escape($event['price'])?></td>
+				<td><?=self::escape($event['offer'])?></td>
+				<td><?=self::escape($event['used'])?></td>
 				<?if($is_admin):?>
 					<td><?=$event['note']?></td>
 				<?endif;?>
 				<td>
 					<?if($event['comment']):?>
 						<?=self::rudate($event['comment']['time'])?> <?=date('H:i', $event['comment']['time'])?><br>
-						<?=$event['comment']['author']?>
+						<?=self::escape($event['comment']['author'])?>
 					<?endif?>
 				</td>
 				<?if($is_admin):?>

@@ -20,7 +20,7 @@
 					name="name"
 					id="event-add-name"
 					required="required" 
-					value="<?if(empty($_POST['name'])):?><?=$event['name']?><?else:?><?=$_POST['name']?><?endif?>"
+					value="<?if(empty($_POST['name'])):?><?=self::escape($event['name'])?><?else:?><?=self::escape($_POST['name'])?><?endif?>"
 				>
 			</div>
 		</div>
@@ -34,7 +34,7 @@
 					name="date_start"
 					id="event-add-date_start"
 					required="required"
-					value="<?if(empty($_POST['date_start'])):?><?=date('Y-m-d', $event['date_start'])?><?else:?><?=$_POST['date_start']?><?endif?>"
+					value="<?if(empty($_POST['date_start'])):?><?=date('Y-m-d', $event['date_start'])?><?else:?><?=self::escape($_POST['date_start'])?><?endif?>"
 				>
 			</div>
 		</div>
@@ -48,7 +48,7 @@
 					name="date_end"
 					id="event-add-date_end"
 					required="required"
-					value="<?if(empty($_POST['date_end'])):?><?=date('Y-m-d', $event['date_end'])?><?else:?><?=$_POST['date_end']?><?endif?>"
+					value="<?if(empty($_POST['date_end'])):?><?=date('Y-m-d', $event['date_end'])?><?else:?><?=self::escape($_POST['date_end'])?><?endif?>"
 				>
 			</div>
 		</div>
@@ -62,7 +62,7 @@
 					name="company"
 					id="event-add-company"
 					required="required"
-					value="<?if(empty($_POST['company'])):?><?=$event['company']?><?else:?><?=$_POST['company']?><?endif?>"
+					value="<?if(empty($_POST['company'])):?><?=self::escape($event['company'])?><?else:?><?=self::escape($_POST['company'])?><?endif?>"
 				>
 			</div>
 		</div>
@@ -76,7 +76,7 @@
 					name="venue"
 					id="event-add-venue"
 					required="required"
-					value="<?if(empty($_POST['venue'])):?><?=$event['venue']?><?else:?><?=$_POST['venue']?><?endif?>"
+					value="<?if(empty($_POST['venue'])):?><?=self::escape($event['venue'])?><?else:?><?=self::escape($_POST['venue'])?><?endif?>"
 				>
 			</div>
 		</div>
@@ -89,7 +89,7 @@
 					type="text"
 					name="price"
 					id="event-add-price"
-					value="<?if(!isset($_POST['price'])):?><?=$event['price']?><?else:?><?=$_POST['price']?><?endif?>"
+					value="<?if(!isset($_POST['price'])):?><?=self::escape($event['price'])?><?else:?><?=self::escape($_POST['price'])?><?endif?>"
 				>
 			</div>
 		</div>
@@ -102,7 +102,7 @@
 					type="text"
 					name="offer"
 					id="event-add-offer"
-					value="<?if(!isset($_POST['offer'])):?><?=$event['offer']?><?else:?><?=$_POST['offer']?><?endif?>"
+					value="<?if(!isset($_POST['offer'])):?><?=self::escape($event['offer'])?><?else:?><?=self::escape($_POST['offer'])?><?endif?>"
 				>
 			</div>
 		</div>
@@ -115,7 +115,7 @@
 					type="text"
 					name="used"
 					id="event-add-used"
-					value="<?if(!isset($_POST['used'])):?><?=$event['used']?><?else:?><?=$_POST['used']?><?endif?>"
+					value="<?if(!isset($_POST['used'])):?><?=self::escape($event['used'])?><?else:?><?=self::escape($_POST['used'])?><?endif?>"
 				>
 			</div>
 		</div>
@@ -129,7 +129,7 @@
 					cols="40"
 					name="note"
 					id="event-add-note"
-				><?if(!isset($_POST['note'])):?><?=$event['note']?><?else:?><?=$_POST['note']?><?endif?></textarea>
+				><?if(!isset($_POST['note'])):?><?=self::escape($event['note'])?><?else:?><?=self::escape($_POST['note'])?><?endif?></textarea>
 			</div>
 		</div>
 		<div class="b-row">
@@ -142,7 +142,7 @@
 					cols="40"
 					name="program"
 					id="event-add-program"
-				><?if(!isset($_POST['program'])):?><?=$event['program']?><?else:?><?=$_POST['program']?><?endif?></textarea>
+				><?if(!isset($_POST['program'])):?><?=self::escape($event['program'])?><?else:?><?=self::escape($_POST['program'])?><?endif?></textarea>
 			</div>
 		</div>
 		<div class="b-row">

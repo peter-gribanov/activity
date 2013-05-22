@@ -19,7 +19,7 @@
 					name="name"
 					id="event-add-name"
 					required="required"
-					<?if(!empty($_POST['name'])):?> value="<?=$_POST['name']?>"<?endif?>
+					<?if(!empty($_POST['name'])):?> value="<?=self::escape($_POST['name'])?>"<?endif?>
 				>
 			</div>
 		</div>
@@ -34,7 +34,7 @@
 					id="event-add-date_start"
 					required="required"
 					min="<?=date('Y-m-d')?>"
-					value="<?if(!empty($_POST['date_start'])):?><?=$_POST['date_start']?><?else:?><?=date('Y-m-d')?><?endif?>"
+					value="<?if(!empty($_POST['date_start'])):?><?=self::escape($_POST['date_start'])?><?else:?><?=date('Y-m-d')?><?endif?>"
 				>
 			</div>
 		</div>
@@ -49,7 +49,7 @@
 					id="event-add-date_end"
 					min="<?=date('Y-m-d')?>"
 					required="required"
-					value="<?if(!empty($_POST['date_end'])):?><?=$_POST['date_end']?><?else:?><?=date('Y-m-d')?><?endif?>"
+					value="<?if(!empty($_POST['date_end'])):?><?=self::escape($_POST['date_end'])?><?else:?><?=date('Y-m-d')?><?endif?>"
 				>
 			</div>
 		</div>
@@ -63,7 +63,7 @@
 					name="company"
 					id="event-add-company"
 					required="required"
-					<?if(!empty($_POST['company'])):?> value="<?=$_POST['company']?>"<?endif?>
+					<?if(!empty($_POST['company'])):?> value="<?=self::escape($_POST['company'])?>"<?endif?>
 				>
 			</div>
 		</div>
@@ -77,7 +77,7 @@
 					name="venue"
 					id="event-add-venue"
 					required="required"
-					<?if(!empty($_POST['venue'])):?> value="<?=$_POST['venue']?>"<?endif?>
+					<?if(!empty($_POST['venue'])):?> value="<?=self::escape($_POST['venue'])?>"<?endif?>
 				>
 			</div>
 		</div>
@@ -90,7 +90,7 @@
 					type="text"
 					name="price"
 					id="event-add-price"
-					<?if(!empty($_POST['price'])):?> value="<?=$_POST['price']?>"<?endif?>
+					<?if(!empty($_POST['price'])):?> value="<?=self::escape($_POST['price'])?>"<?endif?>
 				>
 			</div>
 		</div>
@@ -103,7 +103,7 @@
 					type="text"
 					name="offer"
 					id="event-add-offer"
-					<?if(!empty($_POST['offer'])):?> value="<?=$_POST['offer']?>"<?endif?>
+					<?if(!empty($_POST['offer'])):?> value="<?=self::escape($_POST['offer'])?>"<?endif?>
 				>
 			</div>
 		</div>
@@ -116,7 +116,7 @@
 					type="text"
 					name="used"
 					id="event-add-used"
-					<?if(!empty($_POST['used'])):?> value="<?=$_POST['used']?>"<?endif?>
+					<?if(!empty($_POST['used'])):?> value="<?=self::escape($_POST['used'])?>"<?endif?>
 				>
 			</div>
 		</div>
@@ -130,7 +130,7 @@
 					cols="40"
 					name="note"
 					id="event-add-note"
-				><?if(!empty($_POST['note'])):?><?=$_POST['note']?><?endif?></textarea>
+				><?if(!empty($_POST['note'])):?><?=self::escape($_POST['note'])?><?endif?></textarea>
 			</div>
 		</div>
 		<div class="b-row">
@@ -143,7 +143,7 @@
 					cols="40"
 					name="program"
 					id="event-add-program"
-				><?if(!empty($_POST['program'])):?><?=$_POST['program']?><?endif?></textarea>
+				><?if(!empty($_POST['program'])):?><?=self::escape($_POST['program'])?><?endif?></textarea>
 			</div>
 		</div>
 		<div class="b-row">

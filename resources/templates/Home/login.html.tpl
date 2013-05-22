@@ -7,7 +7,7 @@
 ?>
 <?if(!empty($user)):?>
 	<section>
-		<header>Добрый день <?=$user['name']?></header>
+		<header>Добрый день <?=self::escape($user['name'])?></header>
 		<nav>
 			<a href="<?=self::path('home_logout')?>" class="bt-logout">Выйти</a>
 			<?if($is_admin):?>
