@@ -14,6 +14,7 @@ use Framework\Controller\Controller;
 use Framework\Model\Users;
 use Framework\Http\Redirection\Found;
 use Framework\Http\ClientError\NotFound;
+use Framework\Model\User;
 
 /**
  * Главный контроллер
@@ -29,9 +30,10 @@ class Home extends Controller {
 	 * @return array
 	 */
 	public function indexAction() {
+		$current_user = new User();
 		return array(
 			'list' => $this->getFactory()->getModel()->Activity()->getActivityList(),
-			'is_admin' => !empty($_SESSION['user']) && $_SESSION['user']['role'] == Users::ROLE_ADMIN
+			'is_admin' => $current_user->isAdmin()
 		);
 	}
 
@@ -48,14 +50,16 @@ class Home extends Controller {
 			throw new NotFound('Мероприятие не найдено');
 		}
 
+		$current_user = new User();
+
 		// добавление комментария
-		if (!empty($_SESSION['user']) &&
+		if ($current_user->isLogin() &&
 			$this->getRequest()->server('REQUEST_METHOD', 'GET') == 'POST' &&
 			($comment = $this->getRequest()->post('comment'))
 		) {
 			$comments = $this->getFactory()->getModel()->Comments();
 			$comments->insert(array(
-				'user_id' => $_SESSION['user']['id'],
+				'user_id' => $current_user->id,
 				'event_id' => $id,
 				'time' => time(),
 				'comment' => $comment
@@ -65,8 +69,8 @@ class Home extends Controller {
 
 		return array(
 			'event' => $event,
-			'is_login' => !empty($_SESSION['user']),
-			'is_admin' => !empty($_SESSION['user']) && $_SESSION['user']['role'] == Users::ROLE_ADMIN,
+			'is_login' => $current_user->isLogin(),
+			'is_admin' => $current_user->isAdmin(),
 			'comments' => $this->getFactory()->getModel()->Comments()->getActionComments($id)
 		);
 	}
@@ -77,13 +81,15 @@ class Home extends Controller {
 	 * @return array
 	 */
 	public function loginAction() {
+		$current_user = new User();
+
 		if ($this->getRequest()->server('REQUEST_METHOD', 'GET') == 'POST' &&
 			($email = $this->getRequest()->post('email')) &&
 			($password = $this->getRequest()->post('password'))
 		) {
 			$users = $this->getFactory()->getModel()->Users();
 			if ($user = $users->getUserByPass($email, $password)) {
-				$_SESSION['user'] = $user;
+				$current_user->setData($user);
 				throw new Found($this->getURLHelper()->getUrl('home'));
 			} else {
 				return array('error' => 'Не верный логин или пароль');
@@ -91,8 +97,8 @@ class Home extends Controller {
 		}
 
 		return array(
-			'user' => !empty($_SESSION['user']) ? $_SESSION['user'] : array(),
-			'is_admin' => !empty($_SESSION['user']) && $_SESSION['user']['role'] == Users::ROLE_ADMIN
+			'user' => $current_user->getData(),
+			'is_admin' => $current_user->isAdmin()
 		);
 	}
 
@@ -102,7 +108,8 @@ class Home extends Controller {
 	 * @throws Found
 	 */
 	public function logoutAction() {
-		unset($_SESSION['user']);
+		$current_user = new User();
+		$current_user->destroy();
 		throw new Found($this->getURLHelper()->getUrl('home'));
 	}
 }

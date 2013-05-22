@@ -18,6 +18,7 @@ use Framework\Model\Users;
 use Framework\Http\ClientError\Forbidden;
 use Framework\Http\Redirection\Found;
 use Framework\Http\ClientError\NotFound;
+use Framework\Model\User;
 
 /**
  * Администрировние
@@ -38,7 +39,8 @@ class Admin extends Controller {
 	 */
 	public function __construct(Node $node, Factory $factory, Request $request) {
 		parent::__construct($node, $factory, $request);
-		if (empty($_SESSION['user']) || $_SESSION['user']['role'] != Users::ROLE_ADMIN) {
+		$current_user = new User();
+		if ($user->isAdmin()) {
 			throw new Forbidden('Доступ к разделу запрещен');
 		}
 	}
@@ -151,8 +153,10 @@ class Admin extends Controller {
 	 * @param array  $data     Данные
 	 */
 	private function notifyUsers($template, array $data = array()) {
-		$data['author'] = !empty($_SESSION['user']) ? $_SESSION['user'] : array();
-		$from = !empty($_SESSION['user']) ? $_SESSION['user']['email'] : 'no-replay@example.com';
+		$current_user = new User();
+
+		$data['author'] = $current_user->getData();
+		$from = $current_user->isLogin() ? $current_user->email : 'no-replay@example.com';
 		$headers  = 'MIME-Version: 1.0'."\r\n";
 		$headers .= 'Content-type: text/html; charset=utf-8'."\r\n";
 		$headers .= 'From: '.$from."\r\n";
