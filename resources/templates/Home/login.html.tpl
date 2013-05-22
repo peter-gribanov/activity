@@ -5,7 +5,7 @@
  */
 ?>
 <?if(!empty($user)):?>
-	Добрый день <?=$user['name']?>.
+	Добрый день <?=$user['name']?> (<a href="<?=self::path('admin')?>">Админка</a>).
 <?else:?>
 	<?if(!empty($error)):?>
 		<div class="b-error"><?=$error?></div>

@@ -14,34 +14,34 @@ return array(
 		'controller' => 'Home::index',
 		'present'    => 'html'
 	),
-	'home_add' => array(
-		'pattern'    => '/add.html',
-		'controller' => 'Home::add',
-		'present'    => 'html'
-	),
-	'home_edit' => array(
-		'pattern'    => '/edit.html',
-		'controller' => 'Home::edit',
-		'present'    => 'html'
-	),
-	'home_remove' => array(
-		'pattern'    => '/remove.html',
-		'controller' => 'Home::remove',
-		'present'    => 'html'
-	),
 	'home_show' => array(
 		'pattern'    => '/show.html',
 		'controller' => 'Home::show',
 		'present'    => 'html'
 	),
-	'home_users' => array(
-		'pattern'    => '/users.html',
-		'controller' => 'Home::users',
-		'present'    => 'html'
-	),
 	'home_login' => array(
 		'pattern'    => '/login',
 		'controller' => 'Home::login',
+		'present'    => 'html'
+	),
+	'admin' => array(
+		'pattern'    => '/admin/',
+		'controller' => 'Admin::index',
+		'present'    => 'html'
+	),
+	'admin_add' => array(
+		'pattern'    => '/admin/add.html',
+		'controller' => 'Admin::add',
+		'present'    => 'html'
+	),
+	'admin_edit' => array(
+		'pattern'    => '/admin/edit.html',
+		'controller' => 'Admin::edit',
+		'present'    => 'html'
+	),
+	'admin_remove' => array(
+		'pattern'    => '/admin/remove.html',
+		'controller' => 'Admin::remove',
 		'present'    => 'html'
 	),
 );
