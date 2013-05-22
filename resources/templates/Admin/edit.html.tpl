@@ -124,12 +124,25 @@
 				<label for="event-add-note">Пометки</label>
 			</div>
 			<div class="b-coll">
-				<input
-					type="text"
+				<textarea
+					rows="6"
+					cols="40"
 					name="note"
 					id="event-add-note"
-					value="<?if(!isset($_POST['note'])):?><?=$event['note']?><?else:?><?=$_POST['note']?><?endif?>"
-				>
+				><?if(!isset($_POST['note'])):?><?=$event['note']?><?else:?><?=$_POST['note']?><?endif?></textarea>
+			</div>
+		</div>
+		<div class="b-row">
+			<div class="b-coll">
+				<label for="event-add-program">Программа</label>
+			</div>
+			<div class="b-coll">
+				<textarea
+					rows="6"
+					cols="40"
+					name="program"
+					id="event-add-program"
+				><?if(!isset($_POST['program'])):?><?=$event['program']?><?else:?><?=$_POST['program']?><?endif?></textarea>
 			</div>
 		</div>
 		<div class="b-row">

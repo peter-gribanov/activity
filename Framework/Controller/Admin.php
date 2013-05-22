@@ -185,6 +185,7 @@ class Admin extends Controller {
 			'offer' => $request->post('offer'),
 			'used' => $request->post('used'),
 			'note' => $request->post('note'),
+			'program' => $request->post('program'),
 		);
 	}
 

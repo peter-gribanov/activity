@@ -66,6 +66,7 @@ class Home extends Controller {
 		return array(
 			'event' => $event,
 			'is_login' => !empty($_SESSION['user']),
+			'is_admin' => !empty($_SESSION['user']) && $_SESSION['user']['role'] == Users::ROLE_ADMIN,
 			'comments' => $this->getFactory()->getModel()->Comments()->getActionComments($id)
 		);
 	}

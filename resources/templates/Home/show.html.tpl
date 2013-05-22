@@ -1,6 +1,7 @@
 <?
 /**
  * @param array   $event
+ * @param booelan $is_admin
  * @param booelan $is_login
  * @param array   $comments
  */
@@ -19,6 +20,14 @@
 <?endif?>
 <?if($event['used']):?>
 	<p><strong>Чем воспользовались и представитель</strong> <?=$event['used']?></p>
+<?endif?>
+<?if($is_admin && $event['note']):?>
+	<p><strong>Пометки</strong></p>
+	<div><?=$event['note']?></div>
+<?endif?>
+<?if($event['program']):?>
+	<p><strong>Программа</strong></p>
+	<div><?=$event['program']?></div>
 <?endif?>
 </div>
 <?if($comments):?>
