@@ -41,5 +41,4 @@
 </ul>
 <br>
 С уважением,<br>
-<?=$author['name']?><br>
-<?=$author['department']?>
+<?=$author['name']?>

@@ -38,7 +38,8 @@
 				<td>
 					<?if($event['comment']):?>
 						<?=self::rudate($event['comment']['time'])?> <?=date('H:i', $event['comment']['time'])?><br>
-						<?=self::escape($event['comment']['author'])?>
+						<?=self::escape($event['comment']['author'])?><br>
+						<abbr title="Подразделение"><?=self::escape($event['comment']['group'])?></abbr>
 					<?endif?>
 				</td>
 				<?if($is_admin):?>

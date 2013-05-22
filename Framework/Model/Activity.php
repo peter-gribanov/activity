@@ -32,13 +32,14 @@ class Activity extends ActivityTable {
 		$activity_table = $this->getTableName();
 		$comments_table = $this->factory->Comments()->getTableName();
 		$users_table = $this->factory->Users()->getTableName();
+		$users_groups_table = $this->factory->UsersGroups()->getTableName();
 		$st = $this->engine->prepare('
 			SELECT
 				`a`.*,
 				`c`.`time` AS `comment_time`,
 				`c`.`comment` AS `comment_text`,
 				`u`.`name` AS `comment_author`,
-				`u`.`department` AS `comment_department`
+				`ug`.`name` AS `comment_group`
 			FROM
 				`'.$activity_table.'` AS `a`
 			LEFT JOIN
@@ -49,6 +50,10 @@ class Activity extends ActivityTable {
 				`'.$users_table.'` AS `u`
 				ON
 					`u`.`id` = `c`.`user_id`
+			LEFT JOIN
+				`'.$users_groups_table.'` AS `ug`
+				ON
+					`ug`.`id` = `u`.`group_id`
 			GROUP BY
 				`a`.`id`
 			ORDER BY
@@ -63,13 +68,13 @@ class Activity extends ActivityTable {
 			$result[$key]['comment'] = array();
 			if ($value['comment_time'] && $value['comment_text'] && $value['comment_author']) {
 				$result[$key]['comment'] = array(
-					'time'       => $value['comment_time'],
-					'author'     => $value['comment_author'],
-					'text'       => $value['comment_text'],
-					'department' => $value['comment_department'],
+					'time'   => $value['comment_time'],
+					'author' => $value['comment_author'],
+					'text'   => $value['comment_text'],
+					'group'  => $value['comment_group'],
 				);
 			}
-			unset($result[$key]['comment_time'], $result[$key]['comment_text'], $result[$key]['comment_author'], $result[$key]['comment_department']);
+			unset($result[$key]['comment_time'], $result[$key]['comment_text'], $result[$key]['comment_author'], $result[$key]['comment_group']);
 		}
 
 		return $result;

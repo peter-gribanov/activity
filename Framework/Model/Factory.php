@@ -90,4 +90,13 @@ class Factory {
 		return $this->get('Activity');
 	}
 
+	/**
+	 * Модель групп пользователей
+	 *
+	 * @return \Framework\Model\UsersGroups
+	 */
+	public function UsersGroups() {
+		return $this->get('UsersGroups');
+	}
+
 }

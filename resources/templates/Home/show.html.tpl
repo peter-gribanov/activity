@@ -35,7 +35,7 @@
 <div class="b-comments">
 	<?foreach($comments as $comment):?>
 		<section>
-			<header><?=self::rudate($comment['time'])?> <?=date('H:i', $comment['time'])?> <?=self::escape($comment['name'])?> (<?=self::escape($comment['department'])?>)</header>
+			<header><?=self::rudate($comment['time'])?> <?=date('H:i', $comment['time'])?> <?=self::escape($comment['name'])?> (<?=self::escape($comment['group'])?>)</header>
 			<article><?=self::escape($comment['comment'])?></article>
 		</section>
 	<?endforeach?>

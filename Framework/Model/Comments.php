@@ -32,15 +32,22 @@ class Comments extends CommentsTable {
 	public function getActionComments($id) {
 		$table_comments = $this->getTableName();
 		$table_users = $this->factory->Users()->getTableName();
+		$users_groups_table = $this->factory->UsersGroups()->getTableName();
 		$st = $this->engine->prepare('
 			SELECT
-				*
+				`c`.*,
+				`u`.*,
+				`ug`.`name` AS `group`
 			FROM
 				`'.$table_comments.'` AS `c`
 			INNER JOIN
 				`'.$table_users.'` AS `u`
 				ON
 					`c`.`user_id` = `u`.`id`
+			INNER JOIN
+				`'.$users_groups_table.'` AS `ug`
+				ON
+					`ug`.`id` = `u`.`group_id`
 			WHERE
 				`c`.`event_id` = :id
 			ORDER BY
