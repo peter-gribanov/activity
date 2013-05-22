@@ -1,24 +1,24 @@
 <?
 /**
- * @param array   $action
+ * @param array   $event
  * @param booelan $is_login
  * @param array   $comments
  */
 ?>
 <?self::extend('layouts/default.html.tpl')?>
-<div class="b-action-card">
-<h2><?=$action['name']?></h2>
-<p><strong>Дата</strong> <?=self::rudateinterval($action['date_start'], $action['date_end'])?></p>
-<p><strong>Организатор</strong> <?=$action['company']?></p>
-<?if($action['price']):?>
-	<p><strong>Цена</strong> <?=$action['price']?>
+<div class="b-event-card">
+<h2><?=$event['name']?></h2>
+<p><strong>Дата</strong> <?=self::rudateinterval($event['date_start'], $event['date_end'])?></p>
+<p><strong>Организатор</strong> <?=$event['company']?></p>
+<?if($event['price']):?>
+	<p><strong>Цена</strong> <?=$event['price']?>
 <?endif?>
-<p><strong>Место проведения</strong> <?=$action['venue']?></p>
-<?if($action['offer']):?>
-	<p><strong>Что предлагают</strong> <?=$action['offer']?></p>
+<p><strong>Место проведения</strong> <?=$event['venue']?></p>
+<?if($event['offer']):?>
+	<p><strong>Что предлагают</strong> <?=$event['offer']?></p>
 <?endif?>
-<?if($action['used']):?>
-	<p><strong>Чем воспользовались и представитель</strong> <?=$action['used']?></p>
+<?if($event['used']):?>
+	<p><strong>Чем воспользовались и представитель</strong> <?=$event['used']?></p>
 <?endif?>
 </div>
 <?if($comments):?>
@@ -35,7 +35,7 @@
 <?endif?>
 <?if($is_login):?>
 	<div class="b-add-comment">
-		<form action="" method="post">
+		<form event="" method="post">
 			<textarea rows="5" cols="60" name="comment"></textarea><br />
 			<button type="submit">Отправить</button>
 		</form>

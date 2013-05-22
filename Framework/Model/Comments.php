@@ -42,7 +42,7 @@ class Comments extends CommentsTable {
 				ON
 					`c`.`user_id` = `u`.`id`
 			WHERE
-				`c`.`action_id` = :id
+				`c`.`event_id` = :id
 			ORDER BY
 				`time` DESC
 		');

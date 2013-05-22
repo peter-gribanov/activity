@@ -44,7 +44,7 @@ class Home extends Controller {
 		if (!($id = $this->getRequest()->get('id'))) {
 			throw new NotFound('Не выбрано мероприятие');
 		}
-		if (!($action = $this->getFactory()->getModel()->Activity()->get($id))) {
+		if (!($event = $this->getFactory()->getModel()->Activity()->get($id))) {
 			throw new NotFound('Мероприятие не найдено');
 		}
 
@@ -56,7 +56,7 @@ class Home extends Controller {
 			$comments = $this->getFactory()->getModel()->Comments();
 			$comments->insert(array(
 				'user_id' => $_SESSION['user']['id'],
-				'action_id' => $id,
+				'event_id' => $id,
 				'time' => time(),
 				'comment' => $comment
 			));
@@ -64,7 +64,7 @@ class Home extends Controller {
 		}
 
 		return array(
-			'action' => $action,
+			'event' => $event,
 			'is_login' => !empty($_SESSION['user']),
 			'comments' => $this->getFactory()->getModel()->Comments()->getActionComments($id)
 		);

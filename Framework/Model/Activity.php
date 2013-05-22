@@ -44,7 +44,7 @@ class Activity extends ActivityTable {
 			LEFT JOIN
 				`'.$comments_table.'` AS `c`
 				ON
-					`a`.`id` = `c`.`action_id`
+					`a`.`id` = `c`.`event_id`
 			LEFT JOIN
 				`'.$users_table.'` AS `u`
 				ON

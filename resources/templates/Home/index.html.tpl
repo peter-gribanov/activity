@@ -20,31 +20,31 @@
 			<?endif;?>
 			<th>Последний комментарий</th>
 			<?if($is_admin):?>
-				<th><a href="<?=self::path('admin_add')?>" class="bt-action-add">Добавить</a></th>
+				<th><a href="<?=self::path('admin_add')?>" class="bt-event-add">Добавить</a></th>
 			<?endif;?>
 		</tr>
-		<?foreach ($list as $action):?>
+		<?foreach ($list as $event):?>
 			<tr>
-				<td><?=self::rudateinterval($action['date_start'], $action['date_end'])?></td>
-				<td><a href="<?=self::path('home_show', array('id' => $action['id']))?>"><?=$action['name']?></a></td>
-				<td><?=$action['company']?></td>
-				<td><?=$action['venue']?></td>
-				<td><?=$action['price']?></td>
-				<td><?=$action['offer']?></td>
-				<td><?=$action['used']?></td>
+				<td><?=self::rudateinterval($event['date_start'], $event['date_end'])?></td>
+				<td><a href="<?=self::path('home_show', array('id' => $event['id']))?>"><?=$event['name']?></a></td>
+				<td><?=$event['company']?></td>
+				<td><?=$event['venue']?></td>
+				<td><?=$event['price']?></td>
+				<td><?=$event['offer']?></td>
+				<td><?=$event['used']?></td>
 				<?if($is_admin):?>
-					<td><?=$action['note']?></td>
+					<td><?=$event['note']?></td>
 				<?endif;?>
 				<td>
-					<?if($action['comment']):?>
-						<?=self::rudate($action['comment']['time'])?> <?=date('H:i', $action['comment']['time'])?><br>
-						<?=$action['comment']['author']?>
+					<?if($event['comment']):?>
+						<?=self::rudate($event['comment']['time'])?> <?=date('H:i', $event['comment']['time'])?><br>
+						<?=$event['comment']['author']?>
 					<?endif?>
 				</td>
 				<?if($is_admin):?>
 					<td>
-						<a href="<?=self::path('admin_edit', array('id' => $action['id']))?>" class="bt-action-edit">Редактировать</a>
-						<a href="<?=self::path('admin_remove', array('id' => $action['id']))?>" class="bt-action-remove">Удалить</a>
+						<a href="<?=self::path('admin_edit', array('id' => $event['id']))?>" class="bt-event-edit">Редактировать</a>
+						<a href="<?=self::path('admin_remove', array('id' => $event['id']))?>" class="bt-event-remove">Удалить</a>
 					</td>
 				<?endif;?>
 			</tr>

@@ -65,7 +65,7 @@ class Admin extends Controller {
 		if (!($id = $this->getRequest()->get('id'))) {
 			throw new NotFound('Не выбрано мероприятие');
 		}
-		if (!($action = $this->getFactory()->getModel()->Activity()->get($id))) {
+		if (!($event = $this->getFactory()->getModel()->Activity()->get($id))) {
 			throw new NotFound('Мероприятие не найдено');
 		}
 
@@ -78,21 +78,21 @@ class Admin extends Controller {
 			}
 
 			// игнорируем id при сравнении
-			unset($action['id']);
-			$data = array_diff_assoc($data, $action);
-			$action['id'] = $id;
+			unset($event['id']);
+			$data = array_diff_assoc($data, $event);
+			$event['id'] = $id;
 
 			if ($data) {
 				$this->getFactory()->getModel()->Activity()->updateById($data, $id);
 				// отправляем уведомление об изменениях если изменены не заметки
 				if (array_keys($data) != array('note')) {
-					$this->notifyUsers('Home/edit/message.html.tpl', array('chenges' => $data, 'action' => $action));
+					$this->notifyUsers('Home/edit/message.html.tpl', array('chenges' => $data, 'event' => $event));
 				}
 			}
 			throw new Found($this->getURLHelper()->getUrl('home'));
 		}
 		return array(
-			'action' => $action
+			'event' => $event
 		);
 	}
 
@@ -125,7 +125,7 @@ class Admin extends Controller {
 		if (!($id = $this->getRequest()->get('id'))) {
 			throw new NotFound('Не выбрано мероприятие');
 		}
-		if (!($action = $this->getFactory()->getModel()->Activity()->get($id))) {
+		if (!($event = $this->getFactory()->getModel()->Activity()->get($id))) {
 			throw new NotFound('Мероприятие не найдено');
 		}
 
@@ -140,7 +140,7 @@ class Admin extends Controller {
 		}
 
 		return array(
-			'action' => $action
+			'event' => $event
 		);
 	}
 
