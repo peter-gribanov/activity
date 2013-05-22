@@ -133,6 +133,10 @@ class Engine {
 				\PDO::ATTR_STATEMENT_CLASS => array('\Framework\Database\Statement')
 			));
 			$this->pdo->setAttribute(\PDO::ATTR_DEFAULT_FETCH_MODE, \PDO::FETCH_ASSOC);
+			// выполнение запросов необходимых после подключения
+			if (!empty($connection['after_connect'])) {
+				$this->pdo->exec($connection['after_connect']);
+			}
 		} catch (\PDOException $e) {
 			throw new Exception('Не удалось подключится к базе данных');
 		}

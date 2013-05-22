@@ -17,6 +17,7 @@ return array(
 				'dsn' => 'sqlite:'.dirname(__DIR__).'/activity.db',
 				'username' => null,
 				'password' => null,
+				'after_connect' => 'PRAGMA foreign_keys=ON',
 			)
 		)
 	),
