@@ -11,47 +11,47 @@
 return array(
 	'home' => array(
 		'pattern'    => '/',
-		'controller' => 'Home::index',
+		'controller' => 'Activity::list',
 		'present'    => 'html'
 	),
-	'home_show' => array(
-		'pattern'    => '/show.html',
-		'controller' => 'Home::show',
-		'present'    => 'html'
-	),
-	'home_login' => array(
+	'login' => array(
 		'pattern'    => '/login',
 		'controller' => 'Home::login',
 		'present'    => 'html'
 	),
-	'home_logout' => array(
+	'logout' => array(
 		'pattern'    => '/logout.html',
 		'controller' => 'Home::logout',
 		'present'    => 'html'
 	),
+	'event_show' => array(
+		'pattern'    => '/show.html',
+		'controller' => 'Activity::show',
+		'present'    => 'html'
+	),
 	'admin' => array(
 		'pattern'    => '/admin/',
-		'controller' => 'Admin::index',
+		'controller' => 'Home::admin',
 		'present'    => 'html'
 	),
-	'admin_add' => array(
+	'event_add' => array(
 		'pattern'    => '/admin/add.html',
-		'controller' => 'Admin::add',
+		'controller' => 'Activity::add',
 		'present'    => 'html'
 	),
-	'admin_edit' => array(
+	'event_edit' => array(
 		'pattern'    => '/admin/edit.html',
-		'controller' => 'Admin::edit',
+		'controller' => 'Activity::edit',
 		'present'    => 'html'
 	),
-	'admin_remove' => array(
+	'event_remove' => array(
 		'pattern'    => '/admin/remove.html',
-		'controller' => 'Admin::remove',
+		'controller' => 'Activity::remove',
 		'present'    => 'html'
 	),
-	'admin_statistics' => array(
+	'statistics' => array(
 		'pattern'    => '/admin/statistics.html',
-		'controller' => 'Admin::statistics',
+		'controller' => 'Statistics::index',
 		'present'    => 'html'
 	),
 );

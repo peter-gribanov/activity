@@ -11,7 +11,6 @@
 namespace Framework\Controller;
 
 use Framework\Controller\Controller;
-use Framework\Model\Users;
 use Framework\Http\Redirection\Found;
 use Framework\Http\ClientError\NotFound;
 use Framework\Model\User;
@@ -23,57 +22,6 @@ use Framework\Model\User;
  * @author  Peter Gribanov <gribanov@professionali.ru>
  */
 class Home extends Controller {
-
-	/**
-	 * Главная
-	 *
-	 * @return array
-	 */
-	public function indexAction() {
-		$current_user = new User();
-		return array(
-			'list' => $this->getFactory()->getModel()->Activity()->getActivityList(),
-			'is_admin' => $current_user->isAdmin()
-		);
-	}
-
-	/**
-	 * Просмотр мероприятия
-	 *
-	 * @return array
-	 */
-	public function showAction() {
-		if (!($id = $this->getRequest()->get('id'))) {
-			throw new NotFound('Не выбрано мероприятие');
-		}
-		if (!($event = $this->getFactory()->getModel()->Activity()->get($id))) {
-			throw new NotFound('Мероприятие не найдено');
-		}
-
-		$current_user = new User();
-
-		// добавление комментария
-		if ($current_user->isLogin() &&
-			$this->getRequest()->server('REQUEST_METHOD', 'GET') == 'POST' &&
-			($comment = $this->getRequest()->post('comment'))
-		) {
-			$comments = $this->getFactory()->getModel()->Comments();
-			$comments->insert(array(
-				'user_id' => $current_user->id,
-				'event_id' => $id,
-				'time' => time(),
-				'comment' => $comment
-			));
-			throw new Found($this->getURLHelper()->getUrl('home_show', array('id' => $id)));
-		}
-
-		return array(
-			'event' => $event,
-			'is_login' => $current_user->isLogin(),
-			'is_admin' => $current_user->isAdmin(),
-			'comments' => $this->getFactory()->getModel()->Comments()->getActionComments($id)
-		);
-	}
 
 	/**
 	 * Форма авторизации
@@ -111,5 +59,18 @@ class Home extends Controller {
 		$current_user = new User();
 		$current_user->destroy();
 		throw new Found($this->getURLHelper()->getUrl('home'));
+	}
+
+	/**
+	 * Главная
+	 *
+	 * @return array
+	 */
+	public function adminAction() {
+		$current_user = new User();
+		if (!$current_user->isAdmin()) {
+			throw new Forbidden('Доступ к разделу запрещен');
+		}
+		return array();
 	}
 }

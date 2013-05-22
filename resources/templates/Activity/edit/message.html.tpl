@@ -8,7 +8,7 @@
 ?>
 <?=$recipient['name']?>, <?=self::timeofday(array('доброе утро', 'добрый день' ,'добрый вечер', 'добрый вечер'))?>!<br>
 <br>
-В мероприятии "<a href="<?=self::url('home_show', array('id' => $event['id']))?>"><?=$event['name']?></a>" произведены изменения:<br>
+В мероприятии "<a href="<?=self::url('event_show', array('id' => $event['id']))?>"><?=$event['name']?></a>" произведены изменения:<br>
 <ul>
 <?foreach ($chenges as $column => $value):?>
 	<?switch ($column):

@@ -9,7 +9,7 @@
 	<section>
 		<header>Добрый день <?=self::escape($user['name'])?></header>
 		<nav>
-			<a href="<?=self::path('home_logout')?>" class="bt-logout">Выйти</a>
+			<a href="<?=self::path('logout')?>" class="bt-logout">Выйти</a>
 			<?if($is_admin):?>
 				<a href="<?=self::path('admin')?>" class="bt-admin">Админка</a>
 			<?endif?>

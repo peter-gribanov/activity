@@ -20,13 +20,13 @@
 			<?endif;?>
 			<th>Последний комментарий</th>
 			<?if($is_admin):?>
-				<th><a href="<?=self::path('admin_add')?>" class="bt-event-add">Добавить</a></th>
+				<th><a href="<?=self::path('event_add')?>" class="bt-event-add">Добавить</a></th>
 			<?endif;?>
 		</tr>
 		<?foreach ($list as $event):?>
 			<tr>
 				<td><?=self::rudateinterval($event['date_start'], $event['date_end'])?></td>
-				<td><a href="<?=self::path('home_show', array('id' => $event['id']))?>"><?=self::escape($event['name'])?></a></td>
+				<td><a href="<?=self::path('event_show', array('id' => $event['id']))?>"><?=self::escape($event['name'])?></a></td>
 				<td><?=self::escape($event['company'])?></td>
 				<td><?=self::escape($event['venue'])?></td>
 				<td><?=self::escape($event['price'])?></td>
@@ -44,8 +44,8 @@
 				</td>
 				<?if($is_admin):?>
 					<td>
-						<a href="<?=self::path('admin_edit', array('id' => $event['id']))?>" class="bt-event-edit">Редактировать</a>
-						<a href="<?=self::path('admin_remove', array('id' => $event['id']))?>" class="bt-event-remove">Удалить</a>
+						<a href="<?=self::path('event_edit', array('id' => $event['id']))?>" class="bt-event-edit">Редактировать</a>
+						<a href="<?=self::path('event_remove', array('id' => $event['id']))?>" class="bt-event-remove">Удалить</a>
 					</td>
 				<?endif;?>
 			</tr>
