@@ -54,4 +54,44 @@ return array(
 		'controller' => 'Statistics::index',
 		'present'    => 'html'
 	),
+	'users_list' => array(
+		'pattern'    => '/admin/users/',
+		'controller' => 'Users::list',
+		'present'    => 'html'
+	),
+	'users_add' => array(
+		'pattern'    => '/admin/users/add.html',
+		'controller' => 'Users::add',
+		'present'    => 'html'
+	),
+	'users_edit' => array(
+		'pattern'    => '/admin/users/edit.html',
+		'controller' => 'Users::edit',
+		'present'    => 'html'
+	),
+	'users_remove' => array(
+		'pattern'    => '/admin/users/remove.html',
+		'controller' => 'Users::remove',
+		'present'    => 'html'
+	),
+	'groups_list' => array(
+		'pattern'    => '/admin/groups/',
+		'controller' => 'Groups::list',
+		'present'    => 'html'
+	),
+	'groups_add' => array(
+		'pattern'    => '/admin/groups/add.html',
+		'controller' => 'Groups::add',
+		'present'    => 'html'
+	),
+	'groups_edit' => array(
+		'pattern'    => '/admin/groups/edit.html',
+		'controller' => 'Groups::edit',
+		'present'    => 'html'
+	),
+	'groups_remove' => array(
+		'pattern'    => '/admin/groups/remove.html',
+		'controller' => 'Groups::remove',
+		'present'    => 'html'
+	),
 );
