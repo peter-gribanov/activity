@@ -49,4 +49,9 @@ return array(
 		'controller' => 'Admin::remove',
 		'present'    => 'html'
 	),
+	'admin_statistics' => array(
+		'pattern'    => '/admin/statistics.html',
+		'controller' => 'Admin::statistics',
+		'present'    => 'html'
+	),
 );

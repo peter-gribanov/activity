@@ -169,6 +169,15 @@ class Admin extends Controller {
 	}
 
 	/**
+	 * Статистика по посещениям
+	 *
+	 * @return array
+	 */
+	public function statisticsAction() {
+		return array();
+	}
+
+	/**
 	 * Возвращает данные мероприятия из запроса
 	 *
 	 * @return array
