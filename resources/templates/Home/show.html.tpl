@@ -30,6 +30,7 @@
 	<div><?=$event['program']?></div>
 <?endif?>
 </div>
+<a href="<?=self::path('home')?>" class="bt-go-home">Назад, к списку мероприятий</a>
 <?if($comments):?>
 <div class="b-comments">
 	<?foreach($comments as $comment):?>
