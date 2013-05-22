@@ -49,9 +49,6 @@ class Admin extends Controller {
 	 * @return array
 	 */
 	public function indexAction() {
-		if (empty($_SESSION['user']) || $_SESSION['user']['role'] != Users::ROLE_ADMIN) {
-			throw new Forbidden('Доступ к разделу запрещен');
-		}
 		$users = $this->getFactory()->getModel()->Users();
 		$users_list = $users->fetchAll();
 		return array(

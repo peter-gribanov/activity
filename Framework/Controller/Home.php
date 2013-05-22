@@ -90,7 +90,18 @@ class Home extends Controller {
 		}
 
 		return array(
-			'user' => !empty($_SESSION['user']) ? $_SESSION['user'] : array()
+			'user' => !empty($_SESSION['user']) ? $_SESSION['user'] : array(),
+			'is_admin' => !empty($_SESSION['user']) && $_SESSION['user']['role'] == Users::ROLE_ADMIN
 		);
+	}
+
+	/**
+	 * Разавторизироваться
+	 *
+	 * @throws Found
+	 */
+	public function logoutAction() {
+		unset($_SESSION['user']);
+		throw new Found($this->getURLHelper()->getUrl('home'));
 	}
 }

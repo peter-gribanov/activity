@@ -24,6 +24,11 @@ return array(
 		'controller' => 'Home::login',
 		'present'    => 'html'
 	),
+	'home_logout' => array(
+		'pattern'    => '/logout.html',
+		'controller' => 'Home::logout',
+		'present'    => 'html'
+	),
 	'admin' => array(
 		'pattern'    => '/admin/',
 		'controller' => 'Admin::index',
