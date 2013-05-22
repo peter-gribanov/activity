@@ -14,7 +14,6 @@ td {
 }
 
 
-
 .b-row {
 	clear: both;
 }
@@ -30,4 +29,9 @@ td {
 .b-row .b-coll input[type~=password],
 .b-row .b-coll input[type~=email] {
 	width: 300px;
+}
+
+
+.mce-tinymce.mce-container {
+	width: 525px;
 }

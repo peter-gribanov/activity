@@ -4,6 +4,33 @@
  */
 ?>
 <?self::extend('layouts/default.html.tpl')?>
+
+<?self::block('page_headers')?>
+	<script src="//tinymce.cachefly.net/4.0/tinymce.min.js"></script>
+	<script type="text/javascript">
+	tinymce.init({
+		selector: '#event-add-note',
+		language_url: '/tinymce_languages_ru.js',
+		plugins: [
+			"advlist autolink lists link",
+			"searchreplace",
+			"contextmenu paste"
+		],
+		toolbar: "styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link"
+	});
+	tinymce.init({
+		selector: '#event-add-program',
+		language_url: '/tinymce_languages_ru.js',
+		plugins: [
+			"advlist autolink link",
+			"searchreplace",
+			"table contextmenu paste"
+		],
+		toolbar: "styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link"
+	});
+	</script>
+<?self::endblock()?>
+
 <div class="b-event-add">
 	<?if(!empty($error)):?>
 		<div class="b-error"><?=$error?></div>
