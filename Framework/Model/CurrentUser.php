@@ -13,7 +13,7 @@ namespace Framework\Model;
 use Framework\Model\Users;
 
 /**
- * Модель пользователя
+ * Модель текущего пользователя
  *
  * @property integer $id
  * @property string  $name
@@ -22,7 +22,7 @@ use Framework\Model\Users;
  * @package Framework\Model
  * @author  Peter Gribanov <info@peter-gribanov.ru>
  */
-class User {
+class CurrentUser {
 
 	/**
 	 * Конструктор

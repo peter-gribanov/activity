@@ -13,7 +13,7 @@ namespace Framework\Controller;
 use Framework\Controller\Controller;
 use Framework\Http\Redirection\Found;
 use Framework\Http\ClientError\NotFound;
-use Framework\Model\User;
+use Framework\Model\CurrentUser;
 
 /**
  * Главный контроллер
@@ -29,7 +29,7 @@ class Home extends Controller {
 	 * @return array
 	 */
 	public function loginAction() {
-		$current_user = new User();
+		$current_user = new CurrentUser();
 
 		if ($this->getRequest()->server('REQUEST_METHOD', 'GET') == 'POST' &&
 			($email = $this->getRequest()->post('email')) &&
@@ -56,7 +56,7 @@ class Home extends Controller {
 	 * @throws Found
 	 */
 	public function logoutAction() {
-		$current_user = new User();
+		$current_user = new CurrentUser();
 		$current_user->destroy();
 		throw new Found($this->getURLHelper()->getUrl('home'));
 	}
@@ -67,7 +67,7 @@ class Home extends Controller {
 	 * @return array
 	 */
 	public function adminAction() {
-		$current_user = new User();
+		$current_user = new CurrentUser();
 		if (!$current_user->isAdmin()) {
 			throw new Forbidden('Доступ к разделу запрещен');
 		}

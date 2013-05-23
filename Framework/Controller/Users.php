@@ -21,12 +21,29 @@ use Framework\Controller\Controller;
 class Users extends Controller {
 
 	/**
+	 * Конструктор
+	 *
+	 * @param \Framework\Router\Node $node    Нода
+	 * @param \Framework\Factory     $factory Фабрика
+	 * @param \Framework\Request     $request Запрос
+	 */
+	public function __construct(Node $node, Factory $factory, Request $request) {
+		parent::__construct($node, $factory, $request);
+		$current_user = new CurrentUser();
+		if (!$current_user->isAdmin()) {
+			throw new Forbidden('Доступ к разделу запрещен');
+		}
+	}
+
+	/**
 	 * Список пользователей
 	 *
 	 * @return array
 	 */
 	public function listAction() {
-		return array();
+		return array(
+			'users' => $this->getFactory()->getModel()->Users()->fetchAll()
+		);
 	}
 
 	/**

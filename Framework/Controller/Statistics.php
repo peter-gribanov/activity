@@ -11,14 +11,7 @@
 namespace Framework\Controller;
 
 use Framework\Controller\Controller;
-use Framework\Router\Node;
-use Framework\Factory;
-use Framework\Request;
-use Framework\Model\Users;
-use Framework\Http\ClientError\Forbidden;
-use Framework\Http\Redirection\Found;
-use Framework\Http\ClientError\NotFound;
-use Framework\Model\User;
+use Framework\Model\CurrentUser;
 
 /**
  * Статистика
@@ -27,6 +20,21 @@ use Framework\Model\User;
  * @author  Peter Gribanov <gribanov@professionali.ru>
  */
 class Statistics extends Controller {
+
+	/**
+	 * Конструктор
+	 *
+	 * @param \Framework\Router\Node $node    Нода
+	 * @param \Framework\Factory     $factory Фабрика
+	 * @param \Framework\Request     $request Запрос
+	 */
+	public function __construct(Node $node, Factory $factory, Request $request) {
+		parent::__construct($node, $factory, $request);
+		$current_user = new CurrentUser();
+		if (!$current_user->isAdmin()) {
+			throw new Forbidden('Доступ к разделу запрещен');
+		}
+	}
 
 	/**
 	 * Статистика по посещениям
