@@ -102,10 +102,8 @@ class Activity extends Controller {
 
 			// игнорируем id при сравнении
 			unset($event['id']);
-			$data = array_diff_assoc($data, $event);
-			$event['id'] = $id;
-
-			if ($data) {
+			if ($data = array_diff_assoc($data, $event)) {
+				$event['id'] = $id;
 				$this->getFactory()->getModel()->Activity()->updateById($data, $id);
 				// отправляем уведомление об изменениях если изменены не заметки
 				if (array_keys($data) != array('note')) {

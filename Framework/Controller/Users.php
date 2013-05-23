@@ -66,7 +66,9 @@ class Users extends Controller {
 		if ($this->getRequest()->server('REQUEST_METHOD', 'GET') == 'POST') {
 			// получение данных и их валидация
 			$data = $this->getDataFromRequest();
-			if (($result = $this->validateData($data, $groups)) !== true) {
+			if (($result = $this->validateData($data, $groups)) !== true ||
+				($result = $this->validateDataPassword($data)) !== true
+			) {
 				return array('error' => $result, 'groups' => $groups);
 			}
 			$this->getFactory()->getModel()->Users()->insert(array(
@@ -89,7 +91,49 @@ class Users extends Controller {
 	 * @return array
 	 */
 	public function editAction() {
-		return array();
+		if (!($id = $this->getRequest()->get('id'))) {
+			throw new NotFound('Не выбран пользователь');
+		}
+		if (!($user = $this->getFactory()->getModel()->Users()->get($id))) {
+			throw new NotFound('Пользователь не найден');
+		}
+		$groups = $this->getFactory()->getModel()->UsersGroups()->getList();
+
+		if ($this->getRequest()->server('REQUEST_METHOD', 'GET') == 'POST') {
+			// получение данных и их валидация
+			$data = $this->getDataFromRequest();
+			if (($result = $this->validateData($data, $groups)) !== true) {
+				return array('error' => $result, 'groups' => $groups, 'user' => $user);
+			}
+
+			// обновляемые данные
+			$update = array(
+				'name'     => $data['name'],
+				'email'    => $data['email'],
+				'group_id' => $data['group'],
+				'role'     => $data['role'],
+			);
+
+			// проверяем пароль принеобходимости
+			if ($data['password']) {
+				if (($result = $this->validateDataPassword($data)) !== true) {
+					return array('error' => $result, 'groups' => $groups, 'user' => $user);
+				}
+				$update['password'] = md5($data['password']);
+			}
+
+			// игнорируем id при сравнении
+			unset($user['id']);
+			if ($update = array_diff_assoc($update, $user)) {
+				$this->getFactory()->getModel()->Users()->updateById($update, $id);
+			}
+			throw new Found($this->getURLHelper()->getUrl('users_list'));
+		}
+
+		return array(
+			'groups' => $groups,
+			'user'   => $user
+		);
 	}
 
 	/**
@@ -102,7 +146,7 @@ class Users extends Controller {
 	}
 
 	/**
-	 * Возвращает данные мероприятия из запроса
+	 * Возвращает данные пользователя из запроса
 	 *
 	 * @return array
 	 */
@@ -119,12 +163,12 @@ class Users extends Controller {
 	}
 
 	/**
-	 * Проверяет валидность данных мероприятия
+	 * Проверяет корректность данных пользователя
 	 *
-	 * @param array $data   Данные мероприятия
+	 * @param array $data   Данные пользователя
 	 * @param array $groups Список групп
 	 *
-	 * @return boolean
+	 * @return string|boolean
 	 */
 	private function validateData(array $data, array $groups) {
 		if (empty($data['name'])) {
@@ -135,18 +179,6 @@ class Users extends Controller {
 		}
 		if (empty($data['group'])) {
 			return 'Не указано подразделение пользователя';
-		}
-		if (empty($data['password'])) {
-			return 'Не указан пароль';
-		}
-		if (empty($data['password-confirm'])) {
-			return 'Не указан пароль подтверждения';
-		}
-		if ($data['password'] != $data['password-confirm']) {
-			return 'Пароль не равен паролю подтверждения';
-		}
-		if (strlen($data['password']) < UsersModel::PASSWORD_MIN_LENGTH) {
-			return 'Пароль должен состоять не мение чем из '.UsersModel::PASSWORD_MIN_LENGTH.' символов';
 		}
 		if (strlen($data['name']) < UsersModel::NAME_MIN_LENGTH) {
 			return 'ФИО должно состоять не мение чем из '.UsersModel::NAME_MIN_LENGTH.' символов';
@@ -159,6 +191,29 @@ class Users extends Controller {
 		}
 		if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
 			return 'Введен некорректный Email';
+		}
+		return true;
+	}
+
+	/**
+	 * Проверяет корректность пароля
+	 *
+	 * @param array $data Данные пользователя
+	 *
+	 * @return string|boolean
+	 */
+	private function validateDataPassword(array $data) {
+		if (empty($data['password'])) {
+			return 'Не указан пароль';
+		}
+		if (empty($data['password-confirm'])) {
+			return 'Не указан пароль подтверждения';
+		}
+		if ($data['password'] != $data['password-confirm']) {
+			return 'Пароль не равен паролю подтверждения';
+		}
+		if (strlen($data['password']) < UsersModel::PASSWORD_MIN_LENGTH) {
+			return 'Пароль должен состоять не мение чем из '.UsersModel::PASSWORD_MIN_LENGTH.' символов';
 		}
 		return true;
 	}
