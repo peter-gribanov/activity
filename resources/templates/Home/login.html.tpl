@@ -20,8 +20,8 @@
 		<div class="b-error"><?=$error?></div>
 	<?endif?>
 	<form action="" method="post">
-		<input type="text" name="email" placeholder="Email">
-		<input type="password" name="password" placeholder="Password">
+		<input type="email" name="login" required="required" placeholder="Email">
+		<input type="password" name="pass" required="required" placeholder="Password">
 		<button>Войти</button>
 	</form>
 <?endif?>
