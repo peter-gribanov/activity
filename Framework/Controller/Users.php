@@ -15,6 +15,9 @@ use Framework\Router\Node;
 use Framework\Factory;
 use Framework\Request;
 use Framework\Model\CurrentUser;
+use Framework\Model\Users as UsersModel;
+use Framework\Http\Redirection\Found;
+use Framework\Http\ClientError\NotFound;
 
 /**
  * Пользователи
@@ -45,8 +48,10 @@ class Users extends Controller {
 	 * @return array
 	 */
 	public function listAction() {
+		$current_user = new CurrentUser();
 		return array(
-			'users' => $this->getFactory()->getModel()->Users()->fetchAll()
+			'users' => $this->getFactory()->getModel()->Users()->getList(),
+			'current_user_id' => $current_user->id
 		);
 	}
 
@@ -56,7 +61,26 @@ class Users extends Controller {
 	 * @return array
 	 */
 	public function addAction() {
-		return array();
+		$groups = $this->getFactory()->getModel()->UsersGroups()->getList();
+
+		if ($this->getRequest()->server('REQUEST_METHOD', 'GET') == 'POST') {
+			// получение данных и их валидация
+			$data = $this->getDataFromRequest();
+			if (($result = $this->validateData($data, $groups)) !== true) {
+				return array('error' => $result, 'groups' => $groups);
+			}
+			$this->getFactory()->getModel()->Users()->insert(array(
+				'name'     => $data['name'],
+				'email'    => $data['email'],
+				'group_id' => $data['group'],
+				'role'     => $data['role'],
+				'password' => md5($data['password']),
+			));
+			throw new Found($this->getURLHelper()->getUrl('users_list'));
+		}
+		return array(
+			'groups' => $groups
+		);
 	}
 
 	/**
@@ -75,5 +99,67 @@ class Users extends Controller {
 	 */
 	public function removeAction() {
 		return array();
+	}
+
+	/**
+	 * Возвращает данные мероприятия из запроса
+	 *
+	 * @return array
+	 */
+	private function getDataFromRequest() {
+		$request = $this->getRequest();
+		return array(
+			'name'     => $request->post('name'),
+			'email'    => $request->post('email'),
+			'group'    => $request->post('group'),
+			'role'     => $request->post('role'),
+			'password' => $request->post('password'),
+			'password-confirm' => $request->post('password-confirm'),
+		);
+	}
+
+	/**
+	 * Проверяет валидность данных мероприятия
+	 *
+	 * @param array $data   Данные мероприятия
+	 * @param array $groups Список групп
+	 *
+	 * @return boolean
+	 */
+	private function validateData(array $data, array $groups) {
+		if (empty($data['name'])) {
+			return 'Не указано ФИО пользователя';
+		}
+		if (empty($data['email'])) {
+			return 'Не указан Email пользователя';
+		}
+		if (empty($data['group'])) {
+			return 'Не указано подразделение пользователя';
+		}
+		if (empty($data['password'])) {
+			return 'Не указан пароль';
+		}
+		if (empty($data['password-confirm'])) {
+			return 'Не указан пароль подтверждения';
+		}
+		if ($data['password'] != $data['password-confirm']) {
+			return 'Пароль не равен паролю подтверждения';
+		}
+		if (strlen($data['password']) < UsersModel::PASSWORD_MIN_LENGTH) {
+			return 'Пароль должен состоять не мение чем из '.UsersModel::PASSWORD_MIN_LENGTH.' символов';
+		}
+		if (strlen($data['name']) < UsersModel::NAME_MIN_LENGTH) {
+			return 'ФИО должно состоять не мение чем из '.UsersModel::NAME_MIN_LENGTH.' символов';
+		}
+		if (!array_key_exists($data['group'], $groups)) {
+			return 'Недопустимое подразделение пользователя';
+		}
+		if (!in_array($data['group'], array(UsersModel::ROLE_USER, UsersModel::ROLE_ADMIN))) {
+			return 'Недопустимая роль пользователя';
+		}
+		if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+			return 'Введен некорректный Email';
+		}
+		return true;
 	}
 }

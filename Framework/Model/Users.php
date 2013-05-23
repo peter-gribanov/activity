@@ -36,6 +36,20 @@ class Users extends UsersTable {
 	 */
 	const ROLE_ADMIN = 1;
 
+	/**
+	 * Минимальная длинна паролья
+	 *
+	 * @var integer
+	 */
+	const PASSWORD_MIN_LENGTH = 5;
+
+	/**
+	 * Минимальная длинна ФИО
+	 *
+	 * @var integer
+	 */
+	const NAME_MIN_LENGTH = 5;
+
 
 	/**
 	 * Выбирает пользователя по email и паролю
@@ -60,4 +74,29 @@ class Users extends UsersTable {
 		$st->execute();
 		return $st->fetch();
 	}
+
+	/**
+	 * Возвращает список пользовтелей
+	 *
+	 * @return array
+	 */
+	public function getList() {
+		$users_groups_table = $this->factory->UsersGroups()->getTableName();
+		$st = $this->engine->prepare('
+			SELECT
+				`u`.*,
+				`ug`.`name` AS `group`
+			FROM
+				`'.self::TABLE_NAME.'` AS `u`
+			INNER JOIN
+				`'.$users_groups_table.'` AS `ug`
+				ON
+					`ug`.`id` = `u`.`group_id`
+			ORDER BY
+				`u`.`name` ASC
+		');
+		$st->execute();
+		return $st->fetchAll();
+	}
+
 }
