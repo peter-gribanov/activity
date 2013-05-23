@@ -15,6 +15,9 @@ use Framework\Router\Node;
 use Framework\Factory;
 use Framework\Request;
 use Framework\Model\CurrentUser;
+use Framework\Model\UsersGroups;
+use Framework\Http\Redirection\Found;
+use Framework\Http\ClientError\NotFound;
 
 /**
  * Группы
@@ -47,7 +50,7 @@ class Groups extends Controller {
 	public function listAction() {
 		$current_user = new CurrentUser();
 		return array(
-			'groups' => $this->getFactory()->getModel()->UsersGroups()->fetchAll(),
+			'groups' => $this->getFactory()->getModel()->UsersGroups()->getList(),
 			'current_user' => $current_user->getData()
 		);
 	}
@@ -58,6 +61,16 @@ class Groups extends Controller {
 	 * @return array
 	 */
 	public function addAction() {
+		if ($this->getRequest()->server('REQUEST_METHOD', 'GET') == 'POST') {
+			if (!($name = $this->getRequest()->post('name'))) {
+				return array('error' => 'Не указано название подразделения');
+			}
+			if (strlen($name) < UsersGroups::NAME_MIN_LENGTH) {
+				return array('error' => 'Название подразделения должно состоять не мение чем из '.UsersGroups::NAME_MIN_LENGTH.' символов');
+			}
+			$this->getFactory()->getModel()->UsersGroups()->insert(array('name' => $name));
+			throw new Found($this->getURLHelper()->getUrl('groups_list'));
+		}
 		return array();
 	}
 
@@ -67,7 +80,29 @@ class Groups extends Controller {
 	 * @return array
 	 */
 	public function editAction() {
-		return array();
+		if (!($id = $this->getRequest()->get('id'))) {
+			throw new NotFound('Не выбрана группа');
+		}
+		if (!($group = $this->getFactory()->getModel()->UsersGroups()->get($id))) {
+			throw new NotFound('Группа не найдена');
+		}
+
+		if ($this->getRequest()->server('REQUEST_METHOD', 'GET') == 'POST') {
+			if (!($name = $this->getRequest()->post('name'))) {
+				return array('error' => 'Не указано название подразделения', 'group' => $group);
+			}
+			if (strlen($name) < UsersGroups::NAME_MIN_LENGTH) {
+				return array('error' => 'Название подразделения должно состоять не мение чем из '.UsersGroups::NAME_MIN_LENGTH.' символов', 'group' => $group);
+			}
+			if ($name != $group['name']) {
+				$this->getFactory()->getModel()->UsersGroups()->updateById(array('name' => $name), $id);
+			}
+			throw new Found($this->getURLHelper()->getUrl('groups_list'));
+		}
+
+		return array(
+			'group' => $group
+		);
 	}
 
 	/**
@@ -76,6 +111,24 @@ class Groups extends Controller {
 	 * @return array
 	 */
 	public function removeAction() {
-		return array();
+		if (!($id = $this->getRequest()->get('id'))) {
+			throw new NotFound('Не выбрана группа');
+		}
+		if (!($group = $this->getFactory()->getModel()->UsersGroups()->get($id))) {
+			throw new NotFound('Группа не найдена');
+		}
+
+		if ($this->getRequest()->server('REQUEST_METHOD', 'GET') == 'POST' &&
+			($remove = $this->getRequest()->post('remove'))
+		) {
+			if ($remove == 'yes') {
+				$this->getFactory()->getModel()->UsersGroups()->deleteById($id);
+			}
+			throw new Found($this->getURLHelper()->getUrl('groups_list'));
+		}
+
+		return array(
+			'group' => $group
+		);
 	}
 }

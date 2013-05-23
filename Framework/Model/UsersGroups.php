@@ -23,6 +23,14 @@ use Framework\Database\Engine;
 class UsersGroups extends UsersGroupsTable {
 
 	/**
+	 * Минимальная длинна названия
+	 *
+	 * @var integer
+	 */
+	const NAME_MIN_LENGTH = 4;
+
+
+	/**
 	 * Возвращает список групп
 	 *
 	 * @return array {id:name}

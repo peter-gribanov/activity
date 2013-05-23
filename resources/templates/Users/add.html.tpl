@@ -1,6 +1,7 @@
 <?
 /**
- * @param array $groups
+ * @param array       $groups
+ * @param string|null $error
  */
 use Framework\Model\Users;
 ?>
