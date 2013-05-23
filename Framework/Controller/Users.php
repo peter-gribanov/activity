@@ -142,7 +142,26 @@ class Users extends Controller {
 	 * @return array
 	 */
 	public function removeAction() {
-		return array();
+		if (!($id = $this->getRequest()->get('id'))) {
+			throw new NotFound('Не выбран пользователь');
+		}
+		if (!($user = $this->getFactory()->getModel()->Users()->get($id))) {
+			throw new NotFound('Пользователь не найден');
+		}
+
+		// удаление или перенаправление домой
+		if ($this->getRequest()->server('REQUEST_METHOD', 'GET') == 'POST' &&
+			($remove = $this->getRequest()->post('remove'))
+		) {
+			if ($remove == 'yes') {
+				$this->getFactory()->getModel()->Users()->deleteById($id);
+			}
+			throw new Found($this->getURLHelper()->getUrl('users_list'));
+		}
+
+		return array(
+			'user'   => $user
+		);
 	}
 
 	/**
