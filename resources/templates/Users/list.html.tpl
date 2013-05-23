@@ -12,7 +12,7 @@ use Framework\Model\Users;
 		<th>Email</th>
 		<th>Подразделение</th>
 		<th>Роль</th>
-		<th><a href="<?=self::path('users_add')?>" class="bt-users-add">Добавить</a></th>
+		<th><a href="<?=self::path('users_add')?>" class="bt-user-add">Добавить</a></th>
 	</tr>
 	<?foreach ($users as $user):?>
 		<tr>

@@ -45,7 +45,11 @@ class Groups extends Controller {
 	 * @return array
 	 */
 	public function listAction() {
-		return array();
+		$current_user = new CurrentUser();
+		return array(
+			'groups' => $this->getFactory()->getModel()->UsersGroups()->fetchAll(),
+			'current_user' => $current_user->getData()
+		);
 	}
 
 	/**
