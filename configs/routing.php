@@ -35,17 +35,17 @@ return array(
 		'present'    => 'html'
 	),
 	'event_add' => array(
-		'pattern'    => '/event/add.html',
+		'pattern'    => '/admin/event/add.html',
 		'controller' => 'Activity::add',
 		'present'    => 'html'
 	),
 	'event_edit' => array(
-		'pattern'    => '/event/edit.html',
+		'pattern'    => '/admin/event/edit.html',
 		'controller' => 'Activity::edit',
 		'present'    => 'html'
 	),
 	'event_remove' => array(
-		'pattern'    => '/event/remove.html',
+		'pattern'    => '/admin/event/remove.html',
 		'controller' => 'Activity::remove',
 		'present'    => 'html'
 	),
