@@ -38,7 +38,7 @@ class Home extends Controller {
 			$users = $this->getFactory()->getModel()->Users();
 			if ($user = $users->getUserByPass($email, $password)) {
 				$current_user->setData($user);
-				throw new Found($this->getURLHelper()->getUrl('home'));
+				throw new Found($this->getRequest()->server('HTTP_REFERER', $this->getURLHelper()->getUrl('home')));
 			} else {
 				return array('error' => 'Не верный логин или пароль');
 			}
