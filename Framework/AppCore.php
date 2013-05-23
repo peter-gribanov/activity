@@ -227,7 +227,10 @@ class AppCore {
 		$sub_request->setInput('get', $get);
 		$sub_request->setInput('server', array_merge(
 			$last_request->server(),
-			array('REQUEST_URI' => $node->getPattern())
+			array(
+				'REQUEST_URI'  => $node->getPattern(),
+				'HTTP_REFERER' => $last_request->getRootUrl().$last_request->server('REQUEST_URI')
+			)
 		));
 
 		// выполнение подзапроса
