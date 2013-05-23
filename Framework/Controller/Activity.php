@@ -25,15 +25,27 @@ use Framework\Model\CurrentUser;
 class Activity extends Controller {
 
 	/**
+	 * Интервал списка мероприятий по умолчанию
+	 *
+	 * @var integer
+	 */
+	const DEFAULT_INTERVAL_DEYS = 30;
+
+
+	/**
 	 * Список мероприятий
 	 *
 	 * @return array
 	 */
 	public function listAction() {
 		$current_user = new CurrentUser();
+		$start = ($input = $this->getRequest()->get('start')) && ($input = strtotime($input)) ? $input : time();
+		$end   = ($input = $this->getRequest()->get('end')) && ($input = strtotime($input)) ? $input : time()+(self::DEFAULT_INTERVAL_DEYS * 86400);
 		return array(
-			'list' => $this->getFactory()->getModel()->Activity()->getActivityList(),
-			'is_admin' => $current_user->isAdmin()
+			'list' => $this->getFactory()->getModel()->Activity()->getActivityList($start, $end),
+			'is_admin' => $current_user->isAdmin(),
+			'start' => $start,
+			'end' => $end,
 		);
 	}
 

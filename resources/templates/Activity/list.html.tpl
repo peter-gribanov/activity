@@ -2,9 +2,32 @@
 /**
  * @param array   $list
  * @param boolean $is_admin
+ * @param integer $start
+ * @param integer $end
  */
 ?>
 <?self::extend('layouts/default.html.tpl')?>
+<section class="b-filter">
+	<form action="" method="get">
+		<label for="filter-start">Начало</label>
+		<input
+			type="date"
+			name="start"
+			id="filter-start"
+			required="required" 
+			value="<?=date('Y-m-d', $start)?>"
+		>
+		<label for="filter-end">Окончание</label>
+		<input
+			type="date"
+			name="end"
+			id="filter-end"
+			required="required" 
+			value="<?=date('Y-m-d', $end)?>"
+		>
+		<button type="submit">Отфильтровать</button>
+	</form>
+</section>
 <?if(!empty($list)):?>
 	<table class="t-activity">
 		<tr>

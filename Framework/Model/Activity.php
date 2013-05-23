@@ -25,9 +25,12 @@ class Activity extends ActivityTable {
 	/**
 	 * Возвращает список мероприятий с последним комментарием
 	 *
+	 * @param integer $start Начало интервалов
+	 * @param integer $end   Окончание интервалов
+	 *
 	 * @return array
 	 */
-	public function getActivityList() {
+	public function getActivityList($start, $end) {
 		// получем комментарии
 		$activity_table = $this->getTableName();
 		$comments_table = $this->factory->Comments()->getTableName();
@@ -54,12 +57,17 @@ class Activity extends ActivityTable {
 				`'.$users_groups_table.'` AS `ug`
 				ON
 					`ug`.`id` = `u`.`group_id`
+			WHERE
+				`a`.`date_start` >= :start AND
+				`a`.`date_end` <= :end
 			GROUP BY
 				`a`.`id`
 			ORDER BY
 				`date_start`,
 				strftime(\'%s\', `time`) ASC
 		');
+		$st->bindValue(':start', $start);
+		$st->bindValue(':end', $end);
 		$st->execute();
 		$result = $st->fetchAll();
 		// конвертация данных
