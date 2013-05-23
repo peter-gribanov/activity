@@ -95,8 +95,8 @@ class Activity extends Controller {
 		// обновление мероприятия
 		if ($this->getRequest()->server('REQUEST_METHOD', 'GET') == 'POST') {
 			// получение данных и их валидация
-			$data = $this->getActionDataFromRequest();
-			if (($result = $this->validateActionData($data)) !== true) {
+			$data = $this->getDataFromRequest();
+			if (($result = $this->validateData($data)) !== true) {
 				return array('error' => $result);
 			}
 
@@ -133,8 +133,8 @@ class Activity extends Controller {
 		// добавление мероприятия
 		if ($this->getRequest()->server('REQUEST_METHOD', 'GET') == 'POST') {
 			// получение данных и их валидация
-			$data = $this->getActionDataFromRequest();
-			if (($result = $this->validateActionData($data)) !== true) {
+			$data = $this->getDataFromRequest();
+			if (($result = $this->validateData($data)) !== true) {
 				return array('error' => $result);
 			}
 
@@ -207,7 +207,7 @@ class Activity extends Controller {
 	 *
 	 * @return array
 	 */
-	private function getActionDataFromRequest() {
+	private function getDataFromRequest() {
 		$request = $this->getRequest();
 		return array(
 			'name' => $request->post('name'),
@@ -230,7 +230,7 @@ class Activity extends Controller {
 	 *
 	 * @return boolean
 	 */
-	private function validateActionData(array $data) {
+	private function validateData(array $data) {
 		if (empty($data['name'])) {
 			return 'Не указано название мероприятия';
 		}
