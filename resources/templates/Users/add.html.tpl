@@ -45,13 +45,13 @@ use Framework\Model\Users;
 			</div>
 			<div class="b-coll">
 				<select name="group">
-					<?foreach ($groups as $id => $name):?>
+					<?foreach ($groups as $group):?>
 						<option
-							value="<?=$id?>"
-							<?if(!empty($_POST['group']) && $_POST['group'] == $id):?>
+							value="<?=$group['id']?>"
+							<?if(!empty($_POST['group']) && $_POST['group'] == $group['id']):?>
 								selected="selected"
 							<?endif?>
-						><?=$name?></option>
+						><?=$group['name']?></option>
 					<?endforeach?>
 				</select>
 			</div>

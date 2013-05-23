@@ -46,13 +46,15 @@ use Framework\Model\Users;
 			</div>
 			<div class="b-coll">
 				<select name="group">
-					<?foreach ($groups as $id => $name):?>
+					<?foreach ($groups as $group):?>
 						<option
-							value="<?=$id?>"
-							<?if((!empty($_POST['group']) && $_POST['group'] == $id) || (empty($_POST['group']) && $user['group_id'] == $id)):?>
+							value="<?=$group['id']?>"
+							<?if((!empty($_POST['group']) && $_POST['group'] == $group['id']) ||
+								(empty($_POST['group']) && $user['group_id'] == $group['id'])
+							):?>
 								selected="selected"
 							<?endif?>
-						><?=$name?></option>
+						><?=$group['name']?></option>
 					<?endforeach?>
 				</select>
 			</div>
@@ -65,13 +67,17 @@ use Framework\Model\Users;
 				<select name="role">
 					<option
 						value="<?=Users::ROLE_USER?>"
-						<?if((!empty($_POST['role']) && $_POST['role'] == Users::ROLE_USER) || (empty($_POST['role']) && $user['role'] == Users::ROLE_USER)):?>
+						<?if((!empty($_POST['role']) && $_POST['role'] == Users::ROLE_USER) ||
+							(empty($_POST['role']) && $user['role'] == Users::ROLE_USER)
+						):?>
 							selected="selected"
 						<?endif?>
 					>Пользователь</option>
 					<option
 						value="<?=Users::ROLE_ADMIN?>"
-						<?if((!empty($_POST['role']) && $_POST['role'] == Users::ROLE_ADMIN) || (empty($_POST['role']) && $user['role'] == Users::ROLE_ADMIN)):?>
+						<?if((!empty($_POST['role']) && $_POST['role'] == Users::ROLE_ADMIN) ||
+							(empty($_POST['role']) && $user['role'] == Users::ROLE_ADMIN)
+						):?>
 							selected="selected"
 						<?endif?>
 					>Администратор</option>

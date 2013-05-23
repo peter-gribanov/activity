@@ -202,10 +202,13 @@ class Users extends Controller {
 		if (strlen($data['name']) < UsersModel::NAME_MIN_LENGTH) {
 			return 'ФИО должно состоять не мение чем из '.UsersModel::NAME_MIN_LENGTH.' символов';
 		}
-		if (!array_key_exists($data['group'], $groups)) {
+		$group_ids = array_map(function($group) {
+			return $group['id'];
+		}, $groups);
+		if (!in_array($data['group'], $group_ids)) {
 			return 'Недопустимое подразделение пользователя';
 		}
-		if (!in_array($data['group'], array(UsersModel::ROLE_USER, UsersModel::ROLE_ADMIN))) {
+		if (!in_array($data['role'], array(UsersModel::ROLE_USER, UsersModel::ROLE_ADMIN))) {
 			return 'Недопустимая роль пользователя';
 		}
 		if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {

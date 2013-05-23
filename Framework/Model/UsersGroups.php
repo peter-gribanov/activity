@@ -36,12 +36,7 @@ class UsersGroups extends UsersGroupsTable {
 	 * @return array {id:name}
 	 */
 	public function getList() {
-		$result = $this->fetchAll();
-		$list = array();
-		foreach ($result as $group) {
-			$list[$group['id']] = $group['name'];
-		}
-		return $list;
+		return $this->fetchAll('1=1 ORDER BY `name`');
 	}
 
 }
