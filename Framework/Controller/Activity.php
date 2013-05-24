@@ -14,7 +14,7 @@ use Framework\Controller\Controller;
 use Framework\Model\Users;
 use Framework\Http\Redirection\Found;
 use Framework\Http\ClientError\NotFound;
-use Framework\Model\CurrentUser;
+use Framework\Http\ClientError\Forbidden;
 
 /**
  * Управление мероприятиями
@@ -38,7 +38,7 @@ class Activity extends Controller {
 	 * @return array
 	 */
 	public function listAction() {
-		$current_user = new CurrentUser();
+		$current_user = $this->getFactory()->getModel()->CurrentUser();
 		$start = ($input = $this->getRequest()->get('start')) && ($input = strtotime($input)) ? $input : time();
 		$end   = ($input = $this->getRequest()->get('end')) && ($input = strtotime($input)) ? $input : time()+(self::DEFAULT_INTERVAL_DEYS * 86400);
 		return array(
@@ -62,7 +62,7 @@ class Activity extends Controller {
 			throw new NotFound('Мероприятие не найдено');
 		}
 
-		$current_user = new CurrentUser();
+		$current_user = $this->getFactory()->getModel()->CurrentUser();
 
 		// добавление комментария
 		if ($current_user->isLogin() &&
@@ -93,7 +93,7 @@ class Activity extends Controller {
 	 * @return array
 	 */
 	public function editAction() {
-		$current_user = new CurrentUser();
+		$current_user = $this->getFactory()->getModel()->CurrentUser();
 		if (!$current_user->isAdmin()) {
 			throw new Forbidden('Доступ к разделу запрещен');
 		}
@@ -135,7 +135,7 @@ class Activity extends Controller {
 	 * @return array
 	 */
 	public function addAction() {
-		$current_user = new CurrentUser();
+		$current_user = $this->getFactory()->getModel()->CurrentUser();
 		if (!$current_user->isAdmin()) {
 			throw new Forbidden('Доступ к разделу запрещен');
 		}
@@ -160,7 +160,7 @@ class Activity extends Controller {
 	 * @return array
 	 */
 	public function removeAction() {
-		$current_user = new CurrentUser();
+		$current_user = $this->getFactory()->getModel()->CurrentUser();
 		if (!$current_user->isAdmin()) {
 			throw new Forbidden('Доступ к разделу запрещен');
 		}
@@ -193,7 +193,7 @@ class Activity extends Controller {
 	 * @param array  $data     Данные
 	 */
 	private function notifyUsers($template, array $data = array()) {
-		$current_user = new CurrentUser();
+		$current_user = $this->getFactory()->getModel()->CurrentUser();
 
 		$data['author'] = $current_user->getData();
 		$from = $current_user->isLogin() ? $current_user->email : 'no-replay@example.com';

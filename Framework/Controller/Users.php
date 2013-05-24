@@ -14,10 +14,10 @@ use Framework\Controller\Controller;
 use Framework\Router\Node;
 use Framework\Factory;
 use Framework\Request;
-use Framework\Model\CurrentUser;
 use Framework\Model\Users as UsersModel;
 use Framework\Http\Redirection\Found;
 use Framework\Http\ClientError\NotFound;
+use Framework\Http\ClientError\Forbidden;
 
 /**
  * Пользователи
@@ -36,7 +36,7 @@ class Users extends Controller {
 	 */
 	public function __construct(Node $node, Factory $factory, Request $request) {
 		parent::__construct($node, $factory, $request);
-		$current_user = new CurrentUser();
+		$current_user = $this->getFactory()->getModel()->CurrentUser();
 		if (!$current_user->isAdmin()) {
 			throw new Forbidden('Доступ к разделу запрещен');
 		}
@@ -48,7 +48,7 @@ class Users extends Controller {
 	 * @return array
 	 */
 	public function listAction() {
-		$current_user = new CurrentUser();
+		$current_user = $this->getFactory()->getModel()->CurrentUser();
 		return array(
 			'users' => $this->getFactory()->getModel()->Users()->getList(),
 			'current_user_id' => $current_user->id

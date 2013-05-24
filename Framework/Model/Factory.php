@@ -12,6 +12,7 @@ namespace Framework\Model;
 
 use Framework\Exception;
 use Framework\Table\Table;
+use Framework\Model\CurrentUser;
 
 /**
  * Фабрика моделей
@@ -106,6 +107,18 @@ class Factory {
 	 */
 	public function Statistics() {
 		return $this->get('Statistics');
+	}
+
+	/**
+	 * Модель текущего пользователя
+	 *
+	 * @return \Framework\Model\CurrentUser
+	 */
+	public function CurrentUser() {
+		if (!isset($this->models['CurrentUser'])) {
+			$this->models['CurrentUser'] = new CurrentUser();
+		}
+		return $this->models['CurrentUser'];
 	}
 
 }

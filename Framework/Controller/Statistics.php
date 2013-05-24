@@ -10,10 +10,9 @@
 
 namespace Framework\Controller;
 
-use Framework\Response\Http;
-
 use Framework\Controller\Controller;
-use Framework\Model\CurrentUser;
+use Framework\Http\ClientError\Forbidden;
+use Framework\Response\Http;
 
 /**
  * Статистика
@@ -37,7 +36,7 @@ class Statistics extends Controller {
 	 * @return array
 	 */
 	public function indexAction() {
-		$current_user = new CurrentUser();
+		$current_user = $this->getFactory()->getModel()->CurrentUser();
 		if (!$current_user->isAdmin()) {
 			throw new Forbidden('Доступ к разделу запрещен');
 		}
@@ -50,7 +49,7 @@ class Statistics extends Controller {
 	 * @return array
 	 */
 	public function zeropixelAction() {
-		$current_user = new CurrentUser();
+		$current_user = $this->getFactory()->getModel()->CurrentUser();
 		// логируем посещение
 		if ($current_user->isLogin() && ($referer = $this->getRequest()->server('HTTP_REFERER', '1'))) {
 			$this->getFactory()->getModel()->Statistics()->replace(array(
