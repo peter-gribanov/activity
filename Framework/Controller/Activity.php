@@ -119,7 +119,7 @@ class Activity extends Controller {
 				$this->getFactory()->getModel()->Activity()->updateById($data, $id);
 				// отправляем уведомление об изменениях если изменены не заметки
 				if (array_keys($data) != array('note')) {
-					$this->notifyUsers('Home/edit/message.html.tpl', array('chenges' => $data, 'event' => $event));
+					$this->notifyUsers('Activity/edit/message.html.tpl', array('chenges' => $data, 'event' => $event));
 				}
 			}
 			throw new Found($this->getURLHelper()->getUrl('home'));
