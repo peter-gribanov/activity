@@ -13,6 +13,7 @@ namespace Framework\Controller;
 use Framework\Controller\Controller;
 use Framework\Http\Redirection\Found;
 use Framework\Http\ClientError\NotFound;
+use Framework\Http\ClientError\Forbidden;
 
 /**
  * Главный контроллер
