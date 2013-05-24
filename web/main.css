@@ -91,6 +91,10 @@ body > header .user {
 	min-width: 50px;
 	text-align: center;
 }
+.b-error {
+	color: red;
+	font-weight: bold;
+}
 
 /**
  * Иконки для кнопок

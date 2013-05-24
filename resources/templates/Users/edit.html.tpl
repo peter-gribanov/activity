@@ -32,7 +32,7 @@ use Framework\Model\Users;
 			</div>
 			<div class="b-coll">
 				<input
-					type="text"
+					type="email"
 					name="email"
 					id="user-edit-email"
 					required="required"
@@ -45,7 +45,7 @@ use Framework\Model\Users;
 				<label for="user-edit-group">Подразделение</label>
 			</div>
 			<div class="b-coll">
-				<select name="group">
+				<select name="group" id="user-edit-group">
 					<?foreach ($groups as $group):?>
 						<option
 							value="<?=$group['id']?>"
@@ -64,7 +64,7 @@ use Framework\Model\Users;
 				<label for="user-edit-role">Роль</label>
 			</div>
 			<div class="b-coll">
-				<select name="role">
+				<select name="role" id="user-edit-role">
 					<option
 						value="<?=Users::ROLE_USER?>"
 						<?if((!empty($_POST['role']) && $_POST['role'] == Users::ROLE_USER) ||

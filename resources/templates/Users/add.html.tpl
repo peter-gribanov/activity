@@ -21,7 +21,7 @@ use Framework\Model\Users;
 					name="name"
 					id="user-add-name"
 					required="required"
-					<?if(!empty($_POST['name'])):?> value="<?=self::escape($_POST['name'])?>"<?endif?>
+					<?if(!empty($_POST['name'])):?>value="<?=self::escape($_POST['name'])?>"<?endif?>
 				>
 			</div>
 		</div>
@@ -31,11 +31,11 @@ use Framework\Model\Users;
 			</div>
 			<div class="b-coll">
 				<input
-					type="text"
+					type="email"
 					name="email"
 					id="user-add-email"
 					required="required"
-					value="<?if(!empty($_POST['email'])):?><?=self::escape($_POST['email'])?><?else:?> <?endif?>"
+					<?if(!empty($_POST['email'])):?>value="<?=self::escape($_POST['email'])?>"<?endif?>
 				>
 			</div>
 		</div>
@@ -44,7 +44,7 @@ use Framework\Model\Users;
 				<label for="user-add-group">Подразделение</label>
 			</div>
 			<div class="b-coll">
-				<select name="group">
+				<select name="group" id="user-add-group">
 					<?foreach ($groups as $group):?>
 						<option
 							value="<?=$group['id']?>"
@@ -61,7 +61,7 @@ use Framework\Model\Users;
 				<label for="user-add-role">Роль</label>
 			</div>
 			<div class="b-coll">
-				<select name="role">
+				<select name="role" id="user-add-role">
 					<option
 						value="<?=Users::ROLE_USER?>"
 						<?if(!empty($_POST['role']) && $_POST['role'] == Users::ROLE_USER):?>
