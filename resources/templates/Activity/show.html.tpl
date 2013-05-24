@@ -30,19 +30,19 @@
 	<div><?=$event['program']?></div>
 <?endif?>
 </div>
-<a href="<?=self::path('home')?>" class="bt-go-home">Назад, к списку мероприятий</a>
-<?if($comments):?>
+<a href="<?=self::path('home')?>" class="bt-go-home bt-icon bt-icon-link bt-icon-calendar">Назад, к списку мероприятий</a>
 <div class="b-comments">
+<?if($comments):?>
 	<?foreach($comments as $comment):?>
 		<section>
 			<header><?=self::rudate($comment['time'])?> <?=date('H:i', $comment['time'])?> <?=self::escape($comment['name'])?> (<?=self::escape($comment['group'])?>)</header>
 			<article><?=self::escape($comment['comment'])?></article>
 		</section>
 	<?endforeach?>
-</div>
 <?else:?>
-Нет комментариев<br>
+	<p>Нет комментариев</p>
 <?endif?>
+</div>
 <?if($is_login):?>
 	<div class="b-add-comment">
 		<form event="" method="post">

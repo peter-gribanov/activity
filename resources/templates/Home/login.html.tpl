@@ -9,9 +9,9 @@
 	<section>
 		<header>Добрый день <?=self::escape($user['name'])?></header>
 		<nav>
-			<a href="<?=self::path('logout')?>" class="bt-logout">Выйти</a>
+			<a href="<?=self::path('logout')?>" class="bt-logout bt-icon bt-icon-link bt-icon-key">Выйти</a>
 			<?if($is_admin):?>
-				<a href="<?=self::path('admin')?>" class="bt-admin">Админка</a>
+				<a href="<?=self::path('admin')?>" class="bt-admin bt-icon bt-icon-link bt-icon-gear">Админка</a>
 			<?endif?>
 		</nav>
 	</section>

@@ -43,7 +43,7 @@
 			<?endif;?>
 			<th>Последний комментарий</th>
 			<?if($is_admin):?>
-				<th><a href="<?=self::path('event_add')?>" class="bt-event-add">Добавить</a></th>
+				<th class="tb-controls"><a href="<?=self::path('event_add')?>" class="bt-event-add bt-icon bt-icon-add" title="Добавить">Добавить</a></th>
 			<?endif;?>
 		</tr>
 		<?foreach ($list as $event):?>
@@ -66,9 +66,9 @@
 					<?endif?>
 				</td>
 				<?if($is_admin):?>
-					<td>
-						<a href="<?=self::path('event_edit', array('id' => $event['id']))?>" class="bt-event-edit">Редактировать</a>
-						<a href="<?=self::path('event_remove', array('id' => $event['id']))?>" class="bt-event-remove">Удалить</a>
+					<td class="tb-controls">
+						<a href="<?=self::path('event_edit', array('id' => $event['id']))?>" class="bt-event-edit bt-icon bt-icon-edit" title="Редактировать">Редактировать</a>
+						<a href="<?=self::path('event_remove', array('id' => $event['id']))?>" class="bt-event-remove bt-icon bt-icon-remove" title="Удалить">Удалить</a>
 					</td>
 				<?endif;?>
 			</tr>

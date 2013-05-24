@@ -12,7 +12,7 @@ use Framework\Model\Users;
 		<th>Email</th>
 		<th>Подразделение</th>
 		<th>Роль</th>
-		<th><a href="<?=self::path('users_add')?>" class="bt-user-add">Добавить</a></th>
+		<th class="tb-controls"><a href="<?=self::path('users_add')?>" class="bt-user-add bt-icon bt-icon-add" title="Добавить">Добавить</a></th>
 	</tr>
 	<?foreach ($users as $user):?>
 		<tr>
@@ -20,10 +20,10 @@ use Framework\Model\Users;
 			<td><?=$user['email']?></td>
 			<td><?=$user['group']?></td>
 			<td><?if($user['role'] == Users::ROLE_ADMIN):?>Администратор<?else:?>Пользователь<?endif?></td>
-			<td>
-				<a href="<?=self::path('users_edit', array('id' => $user['id']))?>" class="bt-user-edit">Редактировать</a>
+			<td class="tb-controls">
+				<a href="<?=self::path('users_edit', array('id' => $user['id']))?>" class="bt-user-edit bt-icon bt-icon-edit" title="Редактировать">Редактировать</a>
 				<?if($user['id'] != $current_user_id):?>
-					<a href="<?=self::path('users_remove', array('id' => $user['id']))?>" class="bt-user-remove">Удалить</a>
+					<a href="<?=self::path('users_remove', array('id' => $user['id']))?>" class="bt-user-remove bt-icon bt-icon-remove" title="Удалить">Удалить</a>
 				<?endif?>
 			</td>
 		</tr>

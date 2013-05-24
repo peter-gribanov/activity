@@ -1,6 +1,4 @@
 body {
-	padding: 0;
-	margin: 0;
 	font-family: 'Proxima Nova', Arial, Helvetica, sans-serif;
 	font-size: 13px;
 }
@@ -14,6 +12,16 @@ td {
 }
 
 
+.mce-tinymce.mce-container {
+	width: 525px;
+}
+#zeropixel {
+	position: absolute;
+}
+
+/**
+ * Формы
+ */
 .b-row {
 	clear: both;
 }
@@ -31,7 +39,97 @@ td {
 	width: 300px;
 }
 
+/**
+ * Шапка
+ */
+body > header {
+	margin-bottom: 10px;
+	padding: 20px;
+}
+body > header .logo {
+	float: left;
+}
+body > header .logo h1 {
+	margin: 0;
+}
+body > header .user {
+	width: 400px;
+	text-align: right;
+	float: right;
+}
 
-.mce-tinymce.mce-container {
+/**
+ * Комментарии
+ */
+.b-comments {
+	margin: 20px 0 30px 0;
 	width: 525px;
+}
+.b-add-comment textarea {
+	height: 100px;
+	width: 525px;
+}
+.b-comments section {
+	border-bottom: 1px gray solid;
+	padding-bottom: 7px;
+	margin-bottom: 13px;
+}
+.b-comments section:last-child {
+	border: none;
+	margin: 0;
+	padding: 0;
+}
+
+/**
+ * Фильр
+ */
+.b-filter {
+	margin-bottom: 5px;
+}
+
+.tb-controls {
+	min-width: 50px;
+	text-align: center;
+}
+
+/**
+ * Иконки для кнопок
+ */
+.bt-icon {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	overflow: hidden;
+	text-indent: 16px;
+}
+.bt-icon-link {
+	width: auto;
+	text-indent: 20px;
+}
+.bt-icon-add {
+	background: url(images/plus_16.png) no-repeat 0 0;
+}
+.bt-icon-edit {
+	background: url(images/pencil_16.png) no-repeat 0 0;
+}
+.bt-icon-remove {
+	background: url(images/delete_16.png) no-repeat 0 0;
+}
+.bt-icon-key {
+	background: url(images/key_16.png) no-repeat 0 0;
+}
+.bt-icon-gear {
+	background: url(images/gear_16.png) no-repeat 0 0;
+}
+.bt-icon-calendar {
+	background: url(images/calendar_16.png) no-repeat 0 0;
+}
+.bt-icon-group {
+	background: url(images/briefcase_16.png) no-repeat 0 0;
+}
+.bt-icon-statistics {
+	background: url(images/statistics_16.png) no-repeat 0 0;
+}
+.bt-icon-user {
+	background: url(images/user_16.png) no-repeat 0 0;
 }
