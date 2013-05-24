@@ -99,4 +99,13 @@ class Factory {
 		return $this->get('UsersGroups');
 	}
 
+	/**
+	 * Модель статистики
+	 *
+	 * @return \Framework\Model\Statistics
+	 */
+	public function Statistics() {
+		return $this->get('Statistics');
+	}
+
 }

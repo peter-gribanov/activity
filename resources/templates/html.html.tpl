@@ -1,3 +1,10 @@
+<?
+/**
+ * @param string $content
+ * @param string|null $page_title
+ * @param string|null $page_headers
+ */
+?>
 <!doctype html>
 <html lang="ru">
 	<head>
@@ -7,6 +14,7 @@
 		<?if(!empty($page_headers)):?><?=$page_headers?><?endif?>
 	</head>
 	<body>
+		<img src="<?=self::path('zeropixel')?>" alt="" id="zeropixel">
 		<?=$content?>
 	</body>
 </html>

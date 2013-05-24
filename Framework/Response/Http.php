@@ -18,7 +18,7 @@ use Framework\Http\Status;
  * @package Framework
  * @author  Peter Gribanov <gribanov@professionali.ru>
  */
-abstract class Http extends Response {
+class Http extends Response {
 
 	/**
 	 * Название ответа

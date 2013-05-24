@@ -54,6 +54,10 @@ return array(
 		'controller' => 'Statistics::index',
 		'present'    => 'html'
 	),
+	'zeropixel' => array(
+		'pattern'    => '/statistics/zeropixel.png',
+		'controller' => 'Statistics::zeropixel',
+	),
 	'users_list' => array(
 		'pattern'    => '/admin/users/',
 		'controller' => 'Users::list',

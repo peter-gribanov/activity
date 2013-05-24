@@ -253,4 +253,30 @@ abstract class Table {
 		}
 		return $this->update($data, '`'.$this->column_primary.'` = :id', array(':id' => $id));
 	}
+	
+	/**
+	 * Изменяет или добавляет запись
+	 *
+	 * @param array $data Новые данные
+	 *
+	 * @return boolean
+	 */
+	public function replace(array $data) {
+		if (!$data) {
+			return false;
+		}
+
+		$st = $this->engine->prepare('
+			INSERT OR REPLACE INTO
+				`'.static::TABLE_NAME.'`
+				(`'.implode('`,`', array_keys($data)).'`)
+			VALUES
+				(:'.implode(',:', array_keys($data)).')'
+		);
+		foreach ($data as $key => $value) {
+			$st->bindValue($key, $value);
+		}
+		return $st->execute();
+	}
+
 }
