@@ -22,4 +22,33 @@ use Framework\Database\Engine;
  */
 class Statistics extends StatisticsTable {
 
+	/**
+	 * Возвращает статистику по пользователям
+	 *
+	 * @return array
+	 */
+	public function getList() {
+		$users_table = $this->factory->Users()->getTableName();
+		$users_groups_table = $this->factory->UsersGroups()->getTableName();
+		$st = $this->engine->prepare('
+			SELECT
+				`s`.*,
+				`u`.`name`,
+				`ug`.`name` AS `group`
+			FROM
+				`'.static::TABLE_NAME.'` AS `s`
+			INNER JOIN
+				`'.$users_table.'` AS `u`
+				ON
+					`s`.`user_id` = `u`.`id`
+			INNER JOIN
+				`'.$users_groups_table.'` AS `ug`
+				ON
+					`u`.`group_id` = `ug`.`id`
+			ORDER BY
+				`u`.`name` ASC
+		');
+		$st->execute();
+		return $st->fetchAll();
+	}
 }

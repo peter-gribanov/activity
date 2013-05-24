@@ -40,7 +40,9 @@ class Statistics extends Controller {
 		if (!$current_user->isAdmin()) {
 			throw new Forbidden('Доступ к разделу запрещен');
 		}
-		return array();
+		return array(
+			'statistics' => $this->getFactory()->getModel()->Statistics()->getList()
+		);
 	}
 
 	/**
@@ -52,10 +54,11 @@ class Statistics extends Controller {
 		$current_user = $this->getFactory()->getModel()->CurrentUser();
 		// логируем посещение
 		if ($current_user->isLogin() && ($referer = $this->getRequest()->server('HTTP_REFERER', '1'))) {
+			$query = parse_url($referer, PHP_URL_QUERY);
 			$this->getFactory()->getModel()->Statistics()->replace(array(
 				'user_id' => $current_user->id,
 				'time' => time(),
-				'link' => $referer
+				'link' => parse_url($referer, PHP_URL_PATH).($query ? '?'.$query : '')
 			));
 		}
 
