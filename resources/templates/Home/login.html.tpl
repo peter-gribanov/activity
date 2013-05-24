@@ -22,6 +22,6 @@
 	<form action="" method="post">
 		<input type="email" name="login" required="required" placeholder="Email">
 		<input type="password" name="pass" required="required" placeholder="Password">
-		<button>Войти</button>
+		<button type="button">Войти</button>
 	</form>
 <?endif?>
