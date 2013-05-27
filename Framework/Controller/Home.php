@@ -32,8 +32,8 @@ class Home extends Controller {
 		$current_user = $this->getFactory()->getModel()->CurrentUser();
 
 		if ($this->getRequest()->server('REQUEST_METHOD', 'GET') == 'POST' &&
-			($email = $this->getRequest()->post('login')) &&
-			($password = $this->getRequest()->post('pass'))
+			($email = $this->getRequest()->post('email')) &&
+			($password = $this->getRequest()->post('password'))
 		) {
 			$users = $this->getFactory()->getModel()->Users();
 			if ($user = $users->getUserByPass($email, $password)) {

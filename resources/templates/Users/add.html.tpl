@@ -10,7 +10,7 @@ use Framework\Model\Users;
 	<?if(!empty($error)):?>
 		<div class="b-error"><?=$error?></div>
 	<?endif?>
-	<form action="" method="post">
+	<form action="" method="post" autocomplete="off">
 		<div class="b-row">
 			<div class="b-coll">
 				<label for="user-add-name">ФИО</label>
