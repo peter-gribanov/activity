@@ -53,7 +53,7 @@ class Home extends Controller {
 	/**
 	 * Разавторизироваться
 	 *
-	 * @throws Found
+	 * @throws \Framework\Http\Redirection\Found
 	 */
 	public function logoutAction() {
 		$current_user = $this->getFactory()->getModel()->CurrentUser();
